@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>88. Merge Sorted Array - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="088-merge-sorted-array">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="返回首页">
+        <span class="brand-mark">Py</span>
+        <span>Python 刷题入门笔记</span>
+      </a>
+      <nav class="nav" aria-label="顶部导航">
+        <a class="nav-link" href="../index.html">首页</a>
+        <a class="nav-link" href="../topics.html">题型分类</a>
+        <a class="nav-link" href="../topics.html#acm">ACM 专项</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page layout">
+    <aside class="sidebar">
+      <p class="sidebar-title">题目目录</p>
+      <input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list">
+      <ul id="problem-list" class="problem-list"></ul>
+    </aside>
+
+    <article class="content-card">
+      <header class="problem-header">
+        <div>
+          <p class="eyebrow">Two Pointers / Array</p>
+          <h1>88. Merge Sorted Array</h1>
+          <p class="muted">把两个非递减数组合并到 <code>nums1</code> 中。</p>
+        </div>
+        <div class="tags">
+          <span class="tag easy">Easy</span>
+          <span class="tag">双指针</span>
+          <span class="tag">数组</span>
+        </div>
+      </header>
+
+      <section class="article-section">
+        <h2>核心思路</h2>
+        <p>从后往前合并。因为 <code>nums1</code> 末尾有空位，先放较大的数不会覆盖还没处理的数据。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>题目理解</h2>
+        <ul>
+          <li><code>nums1</code> 的长度是 <code>m + n</code>，前 <code>m</code> 个是有效数字。</li>
+          <li><code>nums2</code> 的长度是 <code>n</code>。</li>
+          <li>要求原地修改 <code>nums1</code>，不需要返回值。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>解题过程</h2>
+        <ol>
+          <li><code>p1</code> 指向 <code>nums1</code> 有效部分末尾。</li>
+          <li><code>p2</code> 指向 <code>nums2</code> 末尾。</li>
+          <li><code>write</code> 指向 <code>nums1</code> 总末尾。</li>
+          <li>每次把较大的数字写到 <code>write</code> 位置。</li>
+          <li>如果 <code>nums2</code> 还有剩余，继续写入。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>Python 代码块</h2>
+        <div class="code-block">
+          <div class="code-title">leetcode.py</div>
+          <pre><code>class Solution:
+    def merge(self, nums1: list[int], m: int, nums2: list[int], n: int) -&gt; None:
+        p1, p2 = m - 1, n - 1
+        write = m + n - 1
+
+        while p2 >= 0:
+            if p1 >= 0 and nums1[p1] > nums2[p2]:
+                nums1[write] = nums1[p1]
+                p1 -= 1
+            else:
+                nums1[write] = nums2[p2]
+                p2 -= 1
+            write -= 1</code></pre>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>逐行解释</h2>
+        <ul>
+          <li><code>p1, p2</code>：分别指向两个数组当前最大元素。</li>
+          <li><code>write</code>：当前要写入的位置。</li>
+          <li><code>while p2 >= 0</code>：只要 <code>nums2</code> 还没放完就继续。</li>
+          <li><code>nums1[p1] > nums2[p2]</code>：较大值放到后面。</li>
+          <li>如果 <code>nums1</code> 剩余，不用额外处理，因为它已经在正确位置。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>复杂度分析</h2>
+        <p>时间复杂度 <code>O(m + n)</code>。空间复杂度 <code>O(1)</code>。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>易错点</h2>
+        <div class="note">不要从前往后写，否则可能覆盖 <code>nums1</code> 中还没有比较的有效元素。</div>
+      </section>
+
+      <section id="acm" class="article-section">
+        <h2>ACM 模式改写</h2>
+        <p>输入 <code>m n</code>，第二行 <code>m</code> 个数，第三行 <code>n</code> 个数，输出合并后的数组。</p>
+        <div class="code-block">
+          <div class="code-title">acm.py</div>
+          <pre><code>import sys
+
+def merge(nums1, nums2):
+    m, n = len(nums1), len(nums2)
+    nums1.extend([0] * n)
+    p1, p2 = m - 1, n - 1
+    write = m + n - 1
+    while p2 >= 0:
+        if p1 >= 0 and nums1[p1] > nums2[p2]:
+            nums1[write] = nums1[p1]
+            p1 -= 1
+        else:
+            nums1[write] = nums2[p2]
+            p2 -= 1
+        write -= 1
+    return nums1
+
+data = sys.stdin.read().strip().split()
+m, n = map(int, data[:2])
+nums1 = list(map(int, data[2:2 + m]))
+nums2 = list(map(int, data[2 + m:2 + m + n]))
+print(*merge(nums1, nums2))</code></pre>
+        </div>
+      </section>
+
+      <nav class="pager" aria-label="题目翻页">
+        <a href="125-valid-palindrome.html">上一题<br><strong>125. Valid Palindrome</strong></a>
+        <a class="next" href="283-move-zeroes.html">下一题<br><strong>283. Move Zeroes</strong></a>
+      </nav>
+    </article>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

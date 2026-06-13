@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1. Two Sum - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="001-two-sum">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="返回首页">
+        <span class="brand-mark">Py</span>
+        <span>Python 刷题入门笔记</span>
+      </a>
+      <nav class="nav" aria-label="顶部导航">
+        <a class="nav-link" href="../index.html">首页</a>
+        <a class="nav-link" href="../topics.html">题型分类</a>
+        <a class="nav-link" href="../topics.html#acm">ACM 专项</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page layout">
+    <aside class="sidebar">
+      <p class="sidebar-title">题目目录</p>
+      <input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list">
+      <ul id="problem-list" class="problem-list"></ul>
+    </aside>
+
+    <article class="content-card">
+      <header class="problem-header">
+        <div>
+          <p class="eyebrow">Hash Table</p>
+          <h1>1. Two Sum</h1>
+          <p class="muted">给定数组和目标值，返回两个数的下标，使它们相加等于目标值。</p>
+        </div>
+        <div class="tags">
+          <span class="tag easy">Easy</span>
+          <span class="tag">哈希表</span>
+          <span class="tag">数组</span>
+        </div>
+      </header>
+
+      <section class="article-section">
+        <h2>核心思路</h2>
+        <p>一边遍历数组，一边用哈希表记录已经见过的数字和下标。当前数字是 <code>x</code>，只要检查 <code>target - x</code> 是否已经出现即可。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>题目理解</h2>
+        <ul>
+          <li>每个输入只对应一个答案。</li>
+          <li>不能重复使用同一个元素。</li>
+          <li>返回的是下标，不是数值本身。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>解题过程</h2>
+        <ol>
+          <li>创建字典 <code>seen</code>，保存数字到下标的映射。</li>
+          <li>遍历数组，计算当前数字需要的补数。</li>
+          <li>如果补数在字典里，说明找到答案。</li>
+          <li>否则把当前数字和下标存入字典，继续遍历。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>Python 代码块</h2>
+        <div class="code-block">
+          <div class="code-title">leetcode.py</div>
+          <pre><code>class Solution:
+    def twoSum(self, nums: list[int], target: int) -&gt; list[int]:
+        seen = {}
+
+        for i, num in enumerate(nums):
+            need = target - num
+            if need in seen:
+                return [seen[need], i]
+            seen[num] = i
+
+        return []</code></pre>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>逐行解释</h2>
+        <ul>
+          <li><code>seen = {}</code>：保存已经遍历过的数字和它的下标。</li>
+          <li><code>enumerate(nums)</code>：同时拿到下标 <code>i</code> 和数字 <code>num</code>。</li>
+          <li><code>need = target - num</code>：计算当前数字还需要配对的值。</li>
+          <li><code>if need in seen</code>：如果补数已经出现，就返回两个下标。</li>
+          <li><code>seen[num] = i</code>：当前数字暂时找不到配对，存起来给后面的数字用。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>复杂度分析</h2>
+        <p>时间复杂度 <code>O(n)</code>，每个元素最多查一次字典。空间复杂度 <code>O(n)</code>，最坏情况下需要保存所有元素。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>易错点</h2>
+        <div class="note">先查补数，再存当前数字。否则当 <code>target = 2 * num</code> 时，可能错误地使用同一个元素两次。</div>
+      </section>
+
+      <section id="acm" class="article-section">
+        <h2>ACM 模式改写</h2>
+        <p>假设输入三行：第一行 <code>n</code>，第二行 <code>n</code> 个整数，第三行 <code>target</code>。输出两个下标。</p>
+        <div class="code-block">
+          <div class="code-title">acm.py</div>
+          <pre><code>import sys
+
+def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        need = target - num
+        if need in seen:
+            return seen[need], i
+        seen[num] = i
+    return -1, -1
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+nums = list(map(int, data[1:1 + n]))
+target = int(data[1 + n])
+
+ans = two_sum(nums, target)
+print(ans[0], ans[1])</code></pre>
+        </div>
+      </section>
+
+      <nav class="pager" aria-label="题目翻页">
+        <span>上一题<br><strong>暂无</strong></span>
+        <a class="next" href="049-group-anagrams.html">下一题<br><strong>49. Group Anagrams</strong></a>
+      </nav>
+    </article>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

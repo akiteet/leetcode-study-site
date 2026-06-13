@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>226. Invert Binary Tree - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="226-invert-binary-tree">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="返回首页">
+        <span class="brand-mark">Py</span>
+        <span>Python 刷题入门笔记</span>
+      </a>
+      <nav class="nav" aria-label="顶部导航">
+        <a class="nav-link" href="../index.html">首页</a>
+        <a class="nav-link" href="../topics.html">题型分类</a>
+        <a class="nav-link" href="../topics.html#acm">ACM 专项</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page layout">
+    <aside class="sidebar">
+      <p class="sidebar-title">题目目录</p>
+      <input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list">
+      <ul id="problem-list" class="problem-list"></ul>
+    </aside>
+
+    <article class="content-card">
+      <header class="problem-header">
+        <div>
+          <p class="eyebrow">Binary Tree / DFS</p>
+          <h1>226. Invert Binary Tree</h1>
+          <p class="muted">把二叉树每个节点的左右子树交换。</p>
+        </div>
+        <div class="tags">
+          <span class="tag easy">Easy</span>
+          <span class="tag">二叉树</span>
+          <span class="tag">DFS</span>
+        </div>
+      </header>
+
+      <section class="article-section">
+        <h2>核心思路</h2>
+        <p>递归访问每个节点，交换它的左右孩子，然后继续翻转左右子树。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>题目理解</h2>
+        <ul>
+          <li>翻转是对整棵树的每个节点都做左右交换。</li>
+          <li>空树返回空。</li>
+          <li>可以前序、后序或层序实现，关键是每个节点交换一次。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>解题过程</h2>
+        <ol>
+          <li>如果节点为空，返回 <code>None</code>。</li>
+          <li>交换当前节点的左右孩子。</li>
+          <li>递归翻转新的左子树。</li>
+          <li>递归翻转新的右子树。</li>
+          <li>返回根节点。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>Python 代码块</h2>
+        <div class="code-block">
+          <div class="code-title">leetcode.py</div>
+          <pre><code>class Solution:
+    def invertTree(self, root):
+        if root is None:
+            return None
+
+        root.left, root.right = root.right, root.left
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+
+        return root</code></pre>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>逐行解释</h2>
+        <ul>
+          <li><code>root is None</code>：递归出口。</li>
+          <li><code>root.left, root.right = ...</code>：交换当前节点的左右孩子。</li>
+          <li><code>self.invertTree(root.left)</code>：继续处理左侧子树。</li>
+          <li><code>self.invertTree(root.right)</code>：继续处理右侧子树。</li>
+          <li><code>return root</code>：返回翻转后的根节点。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>复杂度分析</h2>
+        <p>时间复杂度 <code>O(n)</code>，每个节点交换一次。空间复杂度 <code>O(h)</code>，来自递归栈。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>易错点</h2>
+        <div class="note">交换后再递归也可以，因为左右子树都要翻转；不要只交换根节点。</div>
+      </section>
+
+      <section id="acm" class="article-section">
+        <h2>ACM 模式改写</h2>
+        <p>假设输入层序数组，空节点用 <code>null</code> 表示。输出翻转后的数组位置表示。</p>
+        <div class="code-block">
+          <div class="code-title">acm.py</div>
+          <pre><code>import sys
+from collections import deque
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def build_tree(values):
+    if not values or values[0] == "null":
+        return None
+    root = TreeNode(values[0])
+    queue = deque([root])
+    i = 1
+    while queue and i &lt; len(values):
+        node = queue.popleft()
+        if i &lt; len(values) and values[i] != "null":
+            node.left = TreeNode(values[i])
+            queue.append(node.left)
+        i += 1
+        if i &lt; len(values) and values[i] != "null":
+            node.right = TreeNode(values[i])
+            queue.append(node.right)
+        i += 1
+    return root
+
+def invert(root):
+    if root is None:
+        return None
+    root.left, root.right = root.right, root.left
+    invert(root.left)
+    invert(root.right)
+    return root
+
+def serialize(root):
+    if root is None:
+        return []
+    ans = []
+    queue = deque([root])
+    while queue:
+        node = queue.popleft()
+        if node is None:
+            ans.append("null")
+            continue
+        ans.append(str(node.val))
+        queue.append(node.left)
+        queue.append(node.right)
+    while ans and ans[-1] == "null":
+        ans.pop()
+    return ans
+
+values = sys.stdin.read().strip().split()
+root = invert(build_tree(values))
+print(*serialize(root))</code></pre>
+        </div>
+      </section>
+
+      <nav class="pager" aria-label="题目翻页">
+        <a href="104-maximum-depth-of-binary-tree.html">上一题<br><strong>104. Maximum Depth of Binary Tree</strong></a>
+        <a class="next" href="102-binary-tree-level-order-traversal.html">下一题<br><strong>102. Binary Tree Level Order Traversal</strong></a>
+      </nav>
+    </article>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

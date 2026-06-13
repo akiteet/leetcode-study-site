@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>200. Number of Islands - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="200-number-of-islands">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="返回首页">
+        <span class="brand-mark">Py</span>
+        <span>Python 刷题入门笔记</span>
+      </a>
+      <nav class="nav" aria-label="顶部导航">
+        <a class="nav-link" href="../index.html">首页</a>
+        <a class="nav-link" href="../topics.html">题型分类</a>
+        <a class="nav-link" href="../topics.html#acm">ACM 专项</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page layout">
+    <aside class="sidebar">
+      <p class="sidebar-title">题目目录</p>
+      <input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list">
+      <ul id="problem-list" class="problem-list"></ul>
+    </aside>
+
+    <article class="content-card">
+      <header class="problem-header">
+        <div>
+          <p class="eyebrow">DFS / BFS / Matrix</p>
+          <h1>200. Number of Islands</h1>
+          <p class="muted">统计网格中由上下左右相邻陆地组成的岛屿数量。</p>
+        </div>
+        <div class="tags">
+          <span class="tag medium">Medium</span>
+          <span class="tag">DFS</span>
+          <span class="tag">BFS</span>
+          <span class="tag">矩阵</span>
+        </div>
+      </header>
+
+      <section class="article-section">
+        <h2>核心思路</h2>
+        <p>遍历网格，遇到一块未访问的陆地就说明发现新岛屿。用 DFS 把这座岛的所有陆地都标记为已访问。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>题目理解</h2>
+        <ul>
+          <li><code>"1"</code> 表示陆地，<code>"0"</code> 表示水。</li>
+          <li>只看上下左右相邻，不看对角线。</li>
+          <li>每发现一个新的未访问陆地，岛屿数量加 1。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>解题过程</h2>
+        <ol>
+          <li>遍历每个格子。</li>
+          <li>如果当前格子是 <code>"1"</code>，岛屿数量加 1。</li>
+          <li>从该格子出发做 DFS。</li>
+          <li>DFS 中把访问过的陆地改成 <code>"0"</code>。</li>
+          <li>继续遍历，直到所有格子处理完。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>Python 代码块</h2>
+        <div class="code-block">
+          <div class="code-title">leetcode.py</div>
+          <pre><code>class Solution:
+    def numIslands(self, grid: list[list[str]]) -&gt; int:
+        if not grid:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+
+        def dfs(r, c):
+            if r &lt; 0 or r >= rows or c &lt; 0 or c >= cols:
+                return
+            if grid[r][c] != "1":
+                return
+
+            grid[r][c] = "0"
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
+
+        count = 0
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == "1":
+                    count += 1
+                    dfs(r, c)
+
+        return count</code></pre>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>逐行解释</h2>
+        <ul>
+          <li><code>rows, cols</code>：记录矩阵边界。</li>
+          <li><code>dfs(r, c)</code>：从一个陆地格子扩散访问整座岛。</li>
+          <li><code>grid[r][c] = "0"</code>：标记已访问，避免重复统计。</li>
+          <li>四次递归：分别访问上下左右。</li>
+          <li><code>count += 1</code>：每次从未访问陆地启动 DFS，代表一座新岛。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>复杂度分析</h2>
+        <p>时间复杂度 <code>O(m * n)</code>，每个格子最多访问一次。空间复杂度 <code>O(m * n)</code>，最坏情况下递归栈覆盖整张网格。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>易错点</h2>
+        <div class="note">必须及时标记已访问，否则 DFS 会在相邻陆地之间来回递归，导致重复访问甚至递归过深。</div>
+      </section>
+
+      <section id="acm" class="article-section">
+        <h2>ACM 模式改写</h2>
+        <p>输入第一行 <code>m n</code>，后面 <code>m</code> 行每行一个 01 字符串，输出岛屿数量。</p>
+        <div class="code-block">
+          <div class="code-title">acm.py</div>
+          <pre><code>import sys
+
+def num_islands(grid):
+    if not grid:
+        return 0
+    rows, cols = len(grid), len(grid[0])
+
+    def dfs(r, c):
+        if r &lt; 0 or r >= rows or c &lt; 0 or c >= cols:
+            return
+        if grid[r][c] != "1":
+            return
+        grid[r][c] = "0"
+        dfs(r + 1, c)
+        dfs(r - 1, c)
+        dfs(r, c + 1)
+        dfs(r, c - 1)
+
+    count = 0
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == "1":
+                count += 1
+                dfs(r, c)
+    return count
+
+lines = sys.stdin.read().strip().splitlines()
+m, n = map(int, lines[0].split())
+grid = [list(lines[i + 1].strip()) for i in range(m)]
+print(num_islands(grid))</code></pre>
+        </div>
+      </section>
+
+      <nav class="pager" aria-label="题目翻页">
+        <a href="102-binary-tree-level-order-traversal.html">上一题<br><strong>102. Binary Tree Level Order Traversal</strong></a>
+        <span class="next">下一题<br><strong>暂无</strong></span>
+      </nav>
+    </article>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

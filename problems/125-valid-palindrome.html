@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>125. Valid Palindrome - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="125-valid-palindrome">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="返回首页">
+        <span class="brand-mark">Py</span>
+        <span>Python 刷题入门笔记</span>
+      </a>
+      <nav class="nav" aria-label="顶部导航">
+        <a class="nav-link" href="../index.html">首页</a>
+        <a class="nav-link" href="../topics.html">题型分类</a>
+        <a class="nav-link" href="../topics.html#acm">ACM 专项</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page layout">
+    <aside class="sidebar">
+      <p class="sidebar-title">题目目录</p>
+      <input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list">
+      <ul id="problem-list" class="problem-list"></ul>
+    </aside>
+
+    <article class="content-card">
+      <header class="problem-header">
+        <div>
+          <p class="eyebrow">Two Pointers / String</p>
+          <h1>125. Valid Palindrome</h1>
+          <p class="muted">只保留字母数字并忽略大小写后，判断字符串是否为回文。</p>
+        </div>
+        <div class="tags">
+          <span class="tag easy">Easy</span>
+          <span class="tag">双指针</span>
+          <span class="tag">字符串</span>
+        </div>
+      </header>
+
+      <section class="article-section">
+        <h2>核心思路</h2>
+        <p>左右指针分别从两端向中间移动。遇到非字母数字就跳过，遇到有效字符就转小写后比较。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>题目理解</h2>
+        <ul>
+          <li>标点、空格等非字母数字字符需要忽略。</li>
+          <li>大小写不敏感，<code>A</code> 和 <code>a</code> 视为相同。</li>
+          <li>空字符串或过滤后为空，也视为回文。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>解题过程</h2>
+        <ol>
+          <li>设置左右指针 <code>left</code> 和 <code>right</code>。</li>
+          <li>左指针跳过非字母数字字符。</li>
+          <li>右指针跳过非字母数字字符。</li>
+          <li>比较两个有效字符的小写形式。</li>
+          <li>如果不相等返回 <code>False</code>，否则继续向中间移动。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>Python 代码块</h2>
+        <div class="code-block">
+          <div class="code-title">leetcode.py</div>
+          <pre><code>class Solution:
+    def isPalindrome(self, s: str) -&gt; bool:
+        left, right = 0, len(s) - 1
+
+        while left &lt; right:
+            while left &lt; right and not s[left].isalnum():
+                left += 1
+            while left &lt; right and not s[right].isalnum():
+                right -= 1
+
+            if s[left].lower() != s[right].lower():
+                return False
+
+            left += 1
+            right -= 1
+
+        return True</code></pre>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>逐行解释</h2>
+        <ul>
+          <li><code>left, right</code>：分别指向字符串两端。</li>
+          <li><code>isalnum()</code>：判断字符是否为字母或数字。</li>
+          <li><code>lower()</code>：统一大小写后再比较。</li>
+          <li><code>left += 1</code>、<code>right -= 1</code>：当前字符匹配后继续向中间收缩。</li>
+          <li><code>return True</code>：全部比较通过。</li>
+        </ul>
+      </section>
+
+      <section class="article-section">
+        <h2>复杂度分析</h2>
+        <p>时间复杂度 <code>O(n)</code>，每个字符最多被访问常数次。空间复杂度 <code>O(1)</code>。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>易错点</h2>
+        <div class="note">跳过无效字符时也要判断 <code>left &lt; right</code>，避免指针越界或重复比较。</div>
+      </section>
+
+      <section id="acm" class="article-section">
+        <h2>ACM 模式改写</h2>
+        <p>输入一整行字符串，输出 <code>true</code> 或 <code>false</code>。</p>
+        <div class="code-block">
+          <div class="code-title">acm.py</div>
+          <pre><code>import sys
+
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    while left &lt; right:
+        while left &lt; right and not s[left].isalnum():
+            left += 1
+        while left &lt; right and not s[right].isalnum():
+            right -= 1
+        if s[left].lower() != s[right].lower():
+            return False
+        left += 1
+        right -= 1
+    return True
+
+s = sys.stdin.readline().rstrip("\n")
+print("true" if is_palindrome(s) else "false")</code></pre>
+        </div>
+      </section>
+
+      <nav class="pager" aria-label="题目翻页">
+        <a href="020-valid-parentheses.html">上一题<br><strong>20. Valid Parentheses</strong></a>
+        <a class="next" href="088-merge-sorted-array.html">下一题<br><strong>88. Merge Sorted Array</strong></a>
+      </nav>
+    </article>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

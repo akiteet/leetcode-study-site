@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="home">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="返回首页">
+        <span class="brand-mark">Py</span>
+        <span>Python 刷题入门笔记</span>
+      </a>
+      <nav class="nav" aria-label="顶部导航">
+        <a class="nav-link active" href="index.html">首页</a>
+        <a class="nav-link" href="topics.html">题型分类</a>
+        <a class="nav-link" href="topics.html#acm">ACM 专项</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <p class="eyebrow">LeetCode / 华为机考学习站</p>
+        <h1>Python 刷题入门笔记</h1>
+        <p class="lead">把常见题型、核心模板和 ACM 输入输出写成可长期维护的本地文档。当前已内置 15 道入门题，适合按题型逐步复习。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="topics.html">查看题型分类</a>
+          <a class="button" href="problems/001-two-sum.html">从 Two Sum 开始</a>
+        </div>
+      </div>
+
+      <aside class="card search-card" data-search-box>
+        <label class="search-label" for="home-search">搜索题目</label>
+        <input id="home-search" class="search-input" type="search" placeholder="输入题号、题名或题型，例如 49 / 哈希表" data-site-search>
+        <div class="search-results" data-search-results hidden></div>
+      </aside>
+    </section>
+
+    <section class="section grid cols-2">
+      <article class="card">
+        <h2>学习路线</h2>
+        <ul class="route-list">
+          <li>先熟悉 Python 常用容器：list、dict、set、deque。</li>
+          <li>按题型建立模板：哈希表、双指针、滑动窗口、栈、树和图。</li>
+          <li>每题记录核心思路、复杂度、易错点和 ACM 改写。</li>
+          <li>最后用华为机考输入输出方式重新练一遍。</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>华为 ACM 模式专项入口</h2>
+        <p>专项内容分散在每道题页的 ACM 模式改写中，覆盖标准输入、数组、字符串、矩阵和树的常见读取方式。</p>
+        <a class="button" href="topics.html#acm">进入 ACM 输入输出专项</a>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>题型分类入口</h2>
+      <div class="grid cols-3">
+        <a class="card" href="topics.html#hash">
+          <h3>哈希表</h3>
+          <p>Two Sum、Group Anagrams、Contains Duplicate、Valid Anagram。</p>
+        </a>
+        <a class="card" href="topics.html#two-pointers">
+          <h3>双指针</h3>
+          <p>Valid Palindrome、Merge Sorted Array、Move Zeroes、Remove Duplicates。</p>
+        </a>
+        <a class="card" href="topics.html#tree">
+          <h3>二叉树 / BFS / DFS</h3>
+          <p>最大深度、翻转二叉树、层序遍历、岛屿数量。</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>最近学习题目</h2>
+      <div class="grid cols-3">
+        <a class="card" href="problems/001-two-sum.html">
+          <span class="tag easy">Easy</span>
+          <h3>1. Two Sum</h3>
+          <p>用哈希表记录已访问数字，边遍历边找目标差值。</p>
+        </a>
+        <a class="card" href="problems/049-group-anagrams.html">
+          <span class="tag medium">Medium</span>
+          <h3>49. Group Anagrams</h3>
+          <p>把排序后的字符串作为 key，把异位词聚到同一组。</p>
+        </a>
+        <a class="card" href="problems/003-longest-substring-without-repeating-characters.html">
+          <span class="tag medium">Medium</span>
+          <h3>3. Longest Substring Without Repeating Characters</h3>
+          <p>用滑动窗口维护当前无重复字符区间。</p>
+        </a>
+        <a class="card" href="problems/102-binary-tree-level-order-traversal.html">
+          <span class="tag medium">Medium</span>
+          <h3>102. Binary Tree Level Order Traversal</h3>
+          <p>用队列按层处理二叉树节点。</p>
+        </a>
+        <a class="card" href="problems/200-number-of-islands.html">
+          <span class="tag medium">Medium</span>
+          <h3>200. Number of Islands</h3>
+          <p>遇到未访问陆地后，用 DFS 标记整座岛。</p>
+        </a>
+        <a class="card" href="problems/121-best-time-to-buy-and-sell-stock.html">
+          <span class="tag easy">Easy</span>
+          <h3>121. Best Time to Buy and Sell Stock</h3>
+          <p>维护历史最低价格，计算当天卖出的最大利润。</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="assets/main.js"></script>
+</body>
+</html>
