@@ -171,6 +171,15 @@ const problems = [
     href: "problems/011-container-with-most-water.html"
   },
   {
+    slug: "042-trapping-rain-water",
+    number: "42",
+    title: "Trapping Rain Water",
+    cnTitle: "接雨水",
+    difficulty: "Hard",
+    tags: ["双指针", "数组", "前后缀"],
+    href: "problems/042-trapping-rain-water.html"
+  },
+  {
     slug: "015-3sum",
     number: "15",
     title: "3Sum",

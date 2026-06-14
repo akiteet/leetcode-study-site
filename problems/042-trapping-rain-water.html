@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>42. Trapping Rain Water - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="042-trapping-rain-water">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Two Pointers / Prefix Max</p><h1>42. Trapping Rain Water</h1><p class="muted">给定柱子高度，计算下雨后最多能接多少水。</p></div><div class="tags"><span class="tag hard">Hard</span><span class="tag">双指针</span><span class="tag">数组</span><span class="tag">前后缀</span></div></header>
+
+      <section class="article-section"><h2>题目白话解释</h2><p>每个数字是一根柱子的高度。水能停在某个位置，取决于它左边最高柱子和右边最高柱子中较矮的那个，再减去当前位置柱子高度。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用左右指针维护两边最高柱子，每次处理较低边，因为较低边已经决定了当前位置能接多少水。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>某个位置能接水的高度是 <code>min(左侧最高, 右侧最高) - 当前高度</code>。如果左侧最高小于右侧最高，那么左侧当前位置的上限已经由左侧最高决定，不需要再知道更远的右边细节，可以直接结算并移动左指针。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>left</code>、<code>right</code> 可从数组两端向中间移动。</li><li><code>left_max</code> 和 <code>right_max</code> 记录两侧目前见过的最高柱子。</li><li><code>max(a, b)</code> 用于更新最高值。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化左右指针和两侧最高值。</li><li>当 <code>left &lt; right</code> 时循环。</li><li>更新左右两侧当前最高柱子。</li><li>哪边最高值更小，就处理哪边。</li><li>当前位置能接的水等于该侧最高值减当前位置高度。</li><li>移动被处理的一侧指针。</li></ol></section>
+
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def trap(self, height: list[int]) -&gt; int:
+        left, right = 0, len(height) - 1
+        left_max = 0
+        right_max = 0
+        water = 0
+
+        while left &lt; right:
+            left_max = max(left_max, height[left])
+            right_max = max(right_max, height[right])
+
+            if left_max &lt; right_max:
+                water += left_max - height[left]
+                left += 1
+            else:
+                water += right_max - height[right]
+                right -= 1
+
+        return water</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>left, right</code>：分别从最左和最右开始。</li><li><code>left_max</code>：左侧目前最高柱子。</li><li><code>right_max</code>：右侧目前最高柱子。</li><li><code>left_max &lt; right_max</code>：左侧较矮，当前位置水位由左侧决定。</li><li><code>water += left_max - height[left]</code>：累加左侧当前位置能接的水。</li><li>右侧同理，用 <code>right_max - height[right]</code> 结算。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>输入 <code>[0,1,0,2,1,0,1,3,2,1,2,1]</code>。中间低洼位置会被两边较高柱子围住，例如高度 0 的位置左边最高为 2、右边最高为 3，所以这里能接 2 格水。最终总水量为 6。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，左右指针总共只走完整个数组一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>，只使用左右指针和几个变量。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不要用当前左右柱子的高度直接判断接水量，要用两侧“目前最高柱子”。当前位置能接多少水取决于边界最高值，不是相邻柱子。</div></section>
+
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 <code>n</code>，后面跟着 <code>n</code> 个柱子高度，输出能接的总水量。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def trap(height):
+    left, right = 0, len(height) - 1
+    left_max = 0
+    right_max = 0
+    water = 0
+    while left &lt; right:
+        left_max = max(left_max, height[left])
+        right_max = max(right_max, height[right])
+        if left_max &lt; right_max:
+            water += left_max - height[left]
+            left += 1
+        else:
+            water += right_max - height[right]
+            right -= 1
+    return water
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+height = list(map(int, data[1:1 + n]))
+print(trap(height))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="011-container-with-most-water.html">11. Container With Most Water</a> <a class="problem-chip" href="015-3sum.html">15. 3Sum</a> <a class="problem-chip" href="209-minimum-size-subarray-sum.html">209. Minimum Size Subarray Sum</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="011-container-with-most-water.html">上一题<br><strong>11. Container With Most Water</strong></a><a class="next" href="015-3sum.html">下一题<br><strong>15. 3Sum</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

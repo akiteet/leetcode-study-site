@@ -11,7 +11,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 首页学习路线
 - 题型分类入口
 - 题目搜索
-- 36 道入门题笔记
+- 37 道入门题笔记
 - 每题包含核心思路、解题过程、Python 代码、逐行解释、复杂度分析、易错点和 ACM 模式改写
 
 ## 已整理题目
@@ -35,6 +35,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 347. Top K Frequent Elements
 - 350. Intersection of Two Arrays II
 - 11. Container With Most Water
+- 42. Trapping Rain Water
 - 15. 3Sum
 - 167. Two Sum II - Input Array Is Sorted
 - 209. Minimum Size Subarray Sum
