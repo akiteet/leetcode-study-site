@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15. 3Sum - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="015-3sum">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Sort / Two Pointers</p><h1>15. 3Sum</h1><p class="muted">找出所有不重复的三元组，使三个数相加等于 0。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">双指针</span><span class="tag">排序</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>在数组中找三个人组队，三个人的数字加起来为 0。相同三元组只能出现一次。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>先排序，固定一个数，再用双指针找另外两个数。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>三数之和可以拆成“固定一个数后的两数之和”。排序后，左右指针可以根据当前和偏大或偏小来移动，同时也方便跳过重复值。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>nums.sort()</code> 原地排序。</li><li>列表可以用 <code>[a, b, c]</code> 保存三元组。</li><li><code>continue</code> 可以跳过重复固定值。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>排序数组。</li><li>枚举第一个数 <code>nums[i]</code>。</li><li>跳过重复的第一个数。</li><li>用 <code>left</code> 和 <code>right</code> 找剩余两数。</li><li>找到答案后移动指针并跳过重复值。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def threeSum(self, nums: list[int]) -&gt; list[list[int]]:
+        nums.sort()
+        ans = []
+
+        for i in range(len(nums) - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            if nums[i] > 0:
+                break
+
+            left, right = i + 1, len(nums) - 1
+            while left &lt; right:
+                total = nums[i] + nums[left] + nums[right]
+                if total == 0:
+                    ans.append([nums[i], nums[left], nums[right]])
+                    left += 1
+                    right -= 1
+                    while left &lt; right and nums[left] == nums[left - 1]:
+                        left += 1
+                    while left &lt; right and nums[right] == nums[right + 1]:
+                        right -= 1
+                elif total &lt; 0:
+                    left += 1
+                else:
+                    right -= 1
+
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>nums.sort()</code>：让指针移动有方向。</li><li><code>nums[i] == nums[i - 1]</code>：避免重复固定同一个值。</li><li><code>nums[i] > 0</code>：排序后第一个数都大于 0，后面不可能凑成 0。</li><li><code>total &lt; 0</code>：和太小，左指针右移变大。</li><li>找到答案后跳过重复左右值。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>输入 <code>[-1,0,1,2,-1,-4]</code>，排序为 <code>[-4,-1,-1,0,1,2]</code>。固定第一个 -1 时，双指针能找到 <code>[-1,-1,2]</code> 和 <code>[-1,0,1]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n^2)</code>，外层枚举一个数，内层双指针线性扫描。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p>除答案外为 <code>O(1)</code>；排序可能因实现使用 <code>O(log n)</code> 递归栈。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">去重有三处：固定值去重，找到答案后左指针去重，找到答案后右指针去重。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 <code>n</code>，后面跟着数组。每行输出一个三元组。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def three_sum(nums):
+    nums.sort()
+    ans = []
+    for i in range(len(nums) - 2):
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+        left, right = i + 1, len(nums) - 1
+        while left &lt; right:
+            total = nums[i] + nums[left] + nums[right]
+            if total == 0:
+                ans.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+                while left &lt; right and nums[left] == nums[left - 1]:
+                    left += 1
+                while left &lt; right and nums[right] == nums[right + 1]:
+                    right -= 1
+            elif total &lt; 0:
+                left += 1
+            else:
+                right -= 1
+    return ans
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+nums = list(map(int, data[1:1 + n]))
+for item in three_sum(nums):
+    print(*item)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="001-two-sum.html">1. Two Sum</a> <a class="problem-chip" href="167-two-sum-ii-input-array-is-sorted.html">167. Two Sum II</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="011-container-with-most-water.html">上一题<br><strong>11. Container With Most Water</strong></a><a class="next" href="167-two-sum-ii-input-array-is-sorted.html">下一题<br><strong>167. Two Sum II</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>209. Minimum Size Subarray Sum - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="209-minimum-size-subarray-sum">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Sliding Window</p><h1>209. Minimum Size Subarray Sum</h1><p class="muted">找出和至少为 target 的最短连续子数组长度。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">滑动窗口</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>从数组里找一段连续区间，区间和要不小于目标值，问这样的区间最短有多短。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>右指针扩张窗口，窗口和达标后不断移动左指针缩短窗口。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>题目是连续子数组，并且数组元素为正数。右边加入数字会让和变大，左边移除数字会让和变小，因此窗口可以稳定地向右滑动。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>float("inf")</code> 可表示暂时无穷大的答案。</li><li><code>enumerate(nums)</code> 同时拿到下标和值。</li><li>窗口长度是 <code>right - left + 1</code>。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化左指针和窗口和。</li><li>右指针逐步向右加入元素。</li><li>当窗口和大于等于目标值时更新答案。</li><li>移动左指针，尝试缩短窗口。</li><li>最后如果没有答案返回 0。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def minSubArrayLen(self, target: int, nums: list[int]) -&gt; int:
+        left = 0
+        window_sum = 0
+        best = float("inf")
+
+        for right, num in enumerate(nums):
+            window_sum += num
+
+            while window_sum >= target:
+                best = min(best, right - left + 1)
+                window_sum -= nums[left]
+                left += 1
+
+        return 0 if best == float("inf") else best</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>window_sum</code>：当前窗口内数字和。</li><li><code>window_sum += num</code>：右指针扩张窗口。</li><li><code>while window_sum >= target</code>：只要达标，就尝试更短。</li><li><code>best = min(...)</code>：保存最短长度。</li><li><code>window_sum -= nums[left]</code>：左侧元素离开窗口。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>target = 7, nums = [2,3,1,2,4,3]</code>。窗口扩到 <code>[2,3,1,2]</code> 达标后开始收缩，后面发现 <code>[4,3]</code> 长度为 2，是最短答案。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，每个元素最多被右指针加入一次、被左指针移出一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">只有当元素都是正数时，这种“和达标就收缩”的窗口逻辑才稳定。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一行 <code>n target</code>，第二行 <code>n</code> 个正整数，输出最短长度。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def min_sub_array_len(target, nums):
+    left = 0
+    window_sum = 0
+    best = float("inf")
+    for right, num in enumerate(nums):
+        window_sum += num
+        while window_sum >= target:
+            best = min(best, right - left + 1)
+            window_sum -= nums[left]
+            left += 1
+    return 0 if best == float("inf") else best
+
+data = sys.stdin.read().strip().split()
+n, target = map(int, data[:2])
+nums = list(map(int, data[2:2 + n]))
+print(min_sub_array_len(target, nums))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="003-longest-substring-without-repeating-characters.html">3. Longest Substring</a> <a class="problem-chip" href="424-longest-repeating-character-replacement.html">424. Character Replacement</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="167-two-sum-ii-input-array-is-sorted.html">上一题<br><strong>167. Two Sum II</strong></a><a class="next" href="424-longest-repeating-character-replacement.html">下一题<br><strong>424. Longest Repeating Character Replacement</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

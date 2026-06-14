@@ -26,7 +26,7 @@
       <div class="hero-main">
         <p class="eyebrow">LeetCode / 华为机考学习站</p>
         <h1>Python 刷题入门笔记</h1>
-        <p class="lead">把常见题型、核心模板和 ACM 输入输出写成可长期维护的本地文档。当前已内置 15 道入门题，适合按题型逐步复习。</p>
+        <p class="lead">把常见题型、核心模板和 ACM 输入输出写成可长期维护的本地文档。当前已内置 36 道入门题，适合按题型逐步复习。</p>
         <div class="hero-actions">
           <a class="button primary" href="topics.html">查看题型分类</a>
           <a class="button" href="problems/001-two-sum.html">从 Two Sum 开始</a>
@@ -63,15 +63,15 @@
       <div class="grid cols-3">
         <a class="card" href="topics.html#hash">
           <h3>哈希表</h3>
-          <p>Two Sum、Group Anagrams、Contains Duplicate、Valid Anagram。</p>
+          <p>Two Sum、Group Anagrams、Top K Frequent、最长连续序列。</p>
         </a>
         <a class="card" href="topics.html#two-pointers">
           <h3>双指针</h3>
-          <p>Valid Palindrome、Merge Sorted Array、Move Zeroes、Remove Duplicates。</p>
+          <p>Container With Most Water、3Sum、Two Sum II、原地数组题。</p>
         </a>
         <a class="card" href="topics.html#tree">
           <h3>二叉树 / BFS / DFS</h3>
-          <p>最大深度、翻转二叉树、层序遍历、岛屿数量。</p>
+          <p>二叉树递归、层序遍历、岛屿、腐烂橘子和动态规划入门。</p>
         </a>
       </div>
     </section>
@@ -79,35 +79,35 @@
     <section class="section">
       <h2>最近学习题目</h2>
       <div class="grid cols-3">
-        <a class="card" href="problems/001-two-sum.html">
+        <a class="card" href="problems/128-longest-consecutive-sequence.html">
+          <span class="tag medium">Medium</span>
+          <h3>128. Longest Consecutive Sequence</h3>
+          <p>用集合只从连续段起点开始向后统计。</p>
+        </a>
+        <a class="card" href="problems/015-3sum.html">
+          <span class="tag medium">Medium</span>
+          <h3>15. 3Sum</h3>
+          <p>排序后固定一个数，再用双指针找另外两个数。</p>
+        </a>
+        <a class="card" href="problems/424-longest-repeating-character-replacement.html">
+          <span class="tag medium">Medium</span>
+          <h3>424. Longest Repeating Character Replacement</h3>
+          <p>用窗口长度减最高频次数判断替换次数是否够。</p>
+        </a>
+        <a class="card" href="problems/739-daily-temperatures.html">
+          <span class="tag medium">Medium</span>
+          <h3>739. Daily Temperatures</h3>
+          <p>用单调栈找到每一天后面第一个更高温度。</p>
+        </a>
+        <a class="card" href="problems/994-rotting-oranges.html">
+          <span class="tag medium">Medium</span>
+          <h3>994. Rotting Oranges</h3>
+          <p>多源 BFS 按分钟模拟腐烂扩散。</p>
+        </a>
+        <a class="card" href="problems/070-climbing-stairs.html">
           <span class="tag easy">Easy</span>
-          <h3>1. Two Sum</h3>
-          <p>用哈希表记录已访问数字，边遍历边找目标差值。</p>
-        </a>
-        <a class="card" href="problems/049-group-anagrams.html">
-          <span class="tag medium">Medium</span>
-          <h3>49. Group Anagrams</h3>
-          <p>把排序后的字符串作为 key，把异位词聚到同一组。</p>
-        </a>
-        <a class="card" href="problems/003-longest-substring-without-repeating-characters.html">
-          <span class="tag medium">Medium</span>
-          <h3>3. Longest Substring Without Repeating Characters</h3>
-          <p>用滑动窗口维护当前无重复字符区间。</p>
-        </a>
-        <a class="card" href="problems/102-binary-tree-level-order-traversal.html">
-          <span class="tag medium">Medium</span>
-          <h3>102. Binary Tree Level Order Traversal</h3>
-          <p>用队列按层处理二叉树节点。</p>
-        </a>
-        <a class="card" href="problems/200-number-of-islands.html">
-          <span class="tag medium">Medium</span>
-          <h3>200. Number of Islands</h3>
-          <p>遇到未访问陆地后，用 DFS 标记整座岛。</p>
-        </a>
-        <a class="card" href="problems/121-best-time-to-buy-and-sell-stock.html">
-          <span class="tag easy">Easy</span>
-          <h3>121. Best Time to Buy and Sell Stock</h3>
-          <p>维护历史最低价格，计算当天卖出的最大利润。</p>
+          <h3>70. Climbing Stairs</h3>
+          <p>用前两阶方法数推出当前阶方法数。</p>
         </a>
       </div>
     </section>

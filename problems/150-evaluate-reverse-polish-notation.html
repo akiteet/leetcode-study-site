@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>150. Evaluate Reverse Polish Notation - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="150-evaluate-reverse-polish-notation">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Stack</p><h1>150. Evaluate Reverse Polish Notation</h1><p class="muted">计算逆波兰表达式的值。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">栈</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>表达式里数字在前，运算符在后。例如 <code>["2","1","+","3","*"]</code> 表示 <code>(2 + 1) * 3</code>。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>遇到数字入栈，遇到运算符就弹出两个数字计算后再入栈。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>逆波兰表达式的特点是运算符出现时，它需要的两个操作数一定已经在前面出现。后出现的数字先参与运算，正好符合栈的后进先出。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>str.lstrip("-").isdigit()</code> 可判断整数 token。</li><li>整数除法要向 0 截断，Python 的 <code>int(a / b)</code> 满足这题。</li><li>弹栈顺序要注意：先弹出的是右操作数。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建空栈。</li><li>遍历 tokens。</li><li>数字转成 int 入栈。</li><li>运算符弹出右操作数和左操作数。</li><li>计算结果入栈，最后栈顶就是答案。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def evalRPN(self, tokens: list[str]) -&gt; int:
+        stack = []
+
+        for token in tokens:
+            if token not in {"+", "-", "*", "/"}:
+                stack.append(int(token))
+                continue
+
+            b = stack.pop()
+            a = stack.pop()
+            if token == "+":
+                stack.append(a + b)
+            elif token == "-":
+                stack.append(a - b)
+            elif token == "*":
+                stack.append(a * b)
+            else:
+                stack.append(int(a / b))
+
+        return stack[-1]</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>stack</code>：保存还没参与完计算的数字。</li><li><code>token not in ...</code>：不是运算符就是数字。</li><li><code>b = stack.pop()</code>：右操作数先弹出。</li><li><code>a = stack.pop()</code>：左操作数后弹出。</li><li><code>int(a / b)</code>：除法结果向 0 截断。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>["2","1","+","3","*"]</code>：2、1 入栈，遇到 + 得到 3；3 入栈，遇到 * 得到 9。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，每个 token 处理一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n)</code>，最坏情况下很多数字先入栈。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">减法和除法不能交换操作数，必须是后弹出的 <code>a</code> 在前、先弹出的 <code>b</code> 在后。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 token 数量 <code>n</code>，后面跟着表达式 token，输出计算结果。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def eval_rpn(tokens):
+    stack = []
+    for token in tokens:
+        if token not in {"+", "-", "*", "/"}:
+            stack.append(int(token))
+        else:
+            b = stack.pop()
+            a = stack.pop()
+            if token == "+":
+                stack.append(a + b)
+            elif token == "-":
+                stack.append(a - b)
+            elif token == "*":
+                stack.append(a * b)
+            else:
+                stack.append(int(a / b))
+    return stack[-1]
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+tokens = data[1:1 + n]
+print(eval_rpn(tokens))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="155-min-stack.html">155. Min Stack</a> <a class="problem-chip" href="020-valid-parentheses.html">20. Valid Parentheses</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="155-min-stack.html">上一题<br><strong>155. Min Stack</strong></a><a class="next" href="100-same-tree.html">下一题<br><strong>100. Same Tree</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

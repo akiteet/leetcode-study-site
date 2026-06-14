@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>167. Two Sum II - Input Array Is Sorted - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="167-two-sum-ii-input-array-is-sorted">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Two Pointers</p><h1>167. Two Sum II - Input Array Is Sorted</h1><p class="muted">在有序数组中找两个数，使它们的和等于目标值。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">双指针</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>数组已经从小到大排好序，返回两个数字的位置。注意 LeetCode 原题返回的是从 1 开始的下标。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用左右指针，根据当前和偏大或偏小来收缩范围。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>有序数组提供了方向性：和太小就需要更大的数，移动左指针；和太大就需要更小的数，移动右指针。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>数组下标从 0 开始，题目答案可能要加 1。</li><li><code>while left &lt; right</code> 是双指针常见写法。</li><li>可以用列表 <code>[left + 1, right + 1]</code> 返回答案。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>左指针指向开头，右指针指向结尾。</li><li>计算当前两数之和。</li><li>等于目标值就返回下标。</li><li>小于目标值，左指针右移。</li><li>大于目标值，右指针左移。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def twoSum(self, numbers: list[int], target: int) -&gt; list[int]:
+        left, right = 0, len(numbers) - 1
+
+        while left &lt; right:
+            total = numbers[left] + numbers[right]
+            if total == target:
+                return [left + 1, right + 1]
+            if total &lt; target:
+                left += 1
+            else:
+                right -= 1
+
+        return []</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>left, right</code>：从最小值和最大值开始。</li><li><code>total</code>：当前两数和。</li><li><code>left + 1</code>：题目要求返回 1-based 下标。</li><li><code>total &lt; target</code>：需要更大数字，所以左指针右移。</li><li><code>right -= 1</code>：和太大，需要更小数字。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>numbers = [2,7,11,15], target = 9</code>。左右指针指向 2 和 15，和太大，右移到 7 后和为 9，返回 <code>[1,2]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，两个指针最多各走一遍数组。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">这题返回 1-based 下标，不是 Python 的 0-based 下标。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项 <code>n</code>，接着 <code>n</code> 个有序整数，最后一个数是 <code>target</code>。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def two_sum_sorted(numbers, target):
+    left, right = 0, len(numbers) - 1
+    while left &lt; right:
+        total = numbers[left] + numbers[right]
+        if total == target:
+            return left + 1, right + 1
+        if total &lt; target:
+            left += 1
+        else:
+            right -= 1
+    return -1, -1
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+numbers = list(map(int, data[1:1 + n]))
+target = int(data[1 + n])
+print(*two_sum_sorted(numbers, target))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="001-two-sum.html">1. Two Sum</a> <a class="problem-chip" href="015-3sum.html">15. 3Sum</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="015-3sum.html">上一题<br><strong>15. 3Sum</strong></a><a class="next" href="209-minimum-size-subarray-sum.html">下一题<br><strong>209. Minimum Size Subarray Sum</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

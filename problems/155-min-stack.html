@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>155. Min Stack - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="155-min-stack">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Stack / Design</p><h1>155. Min Stack</h1><p class="muted">设计一个支持 push、pop、top 和常数时间获取最小值的栈。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">栈</span><span class="tag">设计</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>普通栈只能快速看栈顶，但这题还要随时知道当前栈里的最小值，而且所有操作都要快。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>一个栈存数据，另一个辅助栈同步存当前位置的最小值。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>最小值会随着 push 和 pop 变化。只保存一个全局最小值不够，因为最小值被弹出后，需要知道上一个最小值，所以用辅助栈记录历史最小值。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>类用 <code>__init__</code> 初始化属性。</li><li>列表 <code>append</code>、<code>pop</code> 可模拟栈。</li><li><code>self</code> 表示当前对象。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化数据栈和最小值栈。</li><li>push 时数据入数据栈。</li><li>同时把当前最小值入最小值栈。</li><li>pop 时两个栈一起弹出。</li><li>最小值栈栈顶就是当前最小值。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val: int) -&gt; None:
+        self.stack.append(val)
+        if self.min_stack:
+            self.min_stack.append(min(val, self.min_stack[-1]))
+        else:
+            self.min_stack.append(val)
+
+    def pop(self) -&gt; None:
+        self.stack.pop()
+        self.min_stack.pop()
+
+    def top(self) -&gt; int:
+        return self.stack[-1]
+
+    def getMin(self) -&gt; int:
+        return self.min_stack[-1]</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>self.stack</code>：保存真实数据。</li><li><code>self.min_stack</code>：每一层对应一个当前最小值。</li><li><code>min(val, self.min_stack[-1])</code>：新值和旧最小值比较。</li><li><code>pop</code> 时两个栈同步弹出。</li><li><code>getMin</code> 直接返回辅助栈栈顶。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>依次 push -2、0、-3，最小值栈变为 <code>[-2,-2,-3]</code>。此时最小值是 -3，pop 后最小值恢复为 -2。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(1)</code>，四个操作都只访问栈顶。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n)</code>，辅助栈和数据栈长度相同。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不要只在遇到更小值时才入最小栈，除非你额外处理重复最小值。同步入栈最容易理解。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入操作数量 <code>n</code>，后面每行一个操作。查询操作输出结果。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val):
+        self.stack.append(val)
+        self.min_stack.append(val if not self.min_stack else min(val, self.min_stack[-1]))
+
+    def pop(self):
+        self.stack.pop()
+        self.min_stack.pop()
+
+    def top(self):
+        return self.stack[-1]
+
+    def get_min(self):
+        return self.min_stack[-1]
+
+lines = sys.stdin.read().strip().splitlines()
+n = int(lines[0])
+stack = MinStack()
+for line in lines[1:1 + n]:
+    parts = line.split()
+    if parts[0] == "push":
+        stack.push(int(parts[1]))
+    elif parts[0] == "pop":
+        stack.pop()
+    elif parts[0] == "top":
+        print(stack.top())
+    elif parts[0] == "getMin":
+        print(stack.get_min())</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="020-valid-parentheses.html">20. Valid Parentheses</a> <a class="problem-chip" href="150-evaluate-reverse-polish-notation.html">150. Reverse Polish Notation</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="739-daily-temperatures.html">上一题<br><strong>739. Daily Temperatures</strong></a><a class="next" href="150-evaluate-reverse-polish-notation.html">下一题<br><strong>150. Evaluate Reverse Polish Notation</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

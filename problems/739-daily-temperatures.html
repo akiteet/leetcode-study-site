@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>739. Daily Temperatures - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="739-daily-temperatures">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Monotonic Stack</p><h1>739. Daily Temperatures</h1><p class="muted">对每一天，求还要等几天才会遇到更高温度。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">栈</span><span class="tag">单调栈</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每天都在等未来某天升温。输出数组中每个位置表示从这天开始要等几天；如果之后不会更热，就是 0。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用单调递减栈保存还没找到更高温度的日期下标。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>每个新温度都可能解决前面一些较低温度的等待问题。栈顶代表最近还没解决的日期，如果当前温度更高，就可以不断弹栈并填答案。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>列表可用作栈：<code>append</code> 入栈，<code>pop</code> 出栈。</li><li>栈中保存下标，方便计算天数差。</li><li>答案数组可先初始化为全 0。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建答案数组和空栈。</li><li>遍历每一天的温度。</li><li>当前温度大于栈顶日期温度时，说明栈顶找到答案。</li><li>弹出栈顶并计算等待天数。</li><li>把当前下标入栈。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def dailyTemperatures(self, temperatures: list[int]) -&gt; list[int]:
+        ans = [0] * len(temperatures)
+        stack = []
+
+        for i, temp in enumerate(temperatures):
+            while stack and temp > temperatures[stack[-1]]:
+                prev = stack.pop()
+                ans[prev] = i - prev
+            stack.append(i)
+
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>ans = [0] * len(...)</code>：默认没有更高温就是 0。</li><li><code>stack</code>：保存等待更高温的日期下标。</li><li><code>temp > temperatures[stack[-1]]</code>：当前温度解决了栈顶日期。</li><li><code>i - prev</code>：等待天数。</li><li><code>stack.append(i)</code>：当前日期也开始等待未来更高温。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>输入 <code>[73,74,75,71,69,72,76,73]</code>。74 解决 73，75 解决 74，72 解决 69 和 71，76 解决 72 和 75。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，每个下标最多入栈一次、出栈一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n)</code>，最坏情况下温度一直下降，所有下标都留在栈中。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">栈里放下标，不要只放温度；否则无法计算等待了几天。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 <code>n</code>，后面跟着 <code>n</code> 个温度，输出等待天数数组。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def daily_temperatures(temperatures):
+    ans = [0] * len(temperatures)
+    stack = []
+    for i, temp in enumerate(temperatures):
+        while stack and temp > temperatures[stack[-1]]:
+            prev = stack.pop()
+            ans[prev] = i - prev
+        stack.append(i)
+    return ans
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+temperatures = list(map(int, data[1:1 + n]))
+print(*daily_temperatures(temperatures))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="020-valid-parentheses.html">20. Valid Parentheses</a> <a class="problem-chip" href="155-min-stack.html">155. Min Stack</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="438-find-all-anagrams-in-a-string.html">上一题<br><strong>438. Find All Anagrams</strong></a><a class="next" href="155-min-stack.html">下一题<br><strong>155. Min Stack</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

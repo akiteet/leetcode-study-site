@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>100. Same Tree - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="100-same-tree">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Binary Tree / DFS</p><h1>100. Same Tree</h1><p class="muted">判断两棵二叉树是否结构相同且节点值相同。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">二叉树</span><span class="tag">DFS</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>两棵树要完全一样：当前位置要么都为空，要么都有节点且值相同，左右子树也要继续一样。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>同时递归比较两棵树的当前节点、左子树和右子树。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>树的问题常常可以拆成“当前节点是否满足 + 子树是否满足”。相同的树本质上就是每个对应位置都相同。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>None</code> 表示空节点。</li><li>递归函数需要先写出口。</li><li><code>and</code> 可以组合多个判断条件。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>如果两个节点都为空，返回 True。</li><li>如果只有一个为空，返回 False。</li><li>如果两个节点值不同，返回 False。</li><li>递归比较左子树和右子树。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def isSameTree(self, p, q) -&gt; bool:
+        if p is None and q is None:
+            return True
+        if p is None or q is None:
+            return False
+        if p.val != q.val:
+            return False
+
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>两个都空：当前结构一致。</li><li>只有一个空：结构不同。</li><li>值不同：节点内容不同。</li><li>最后递归比较左右子树。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>两棵树都是 <code>[1,2,3]</code> 时，根节点 1 相同，左孩子 2 相同，右孩子 3 相同，所以返回 True。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，n 是两棵树中较小范围内需要比较的节点数。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(h)</code>，h 是递归栈高度。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不能只比较层序数组长度和值，还要确保每个空节点位置也一致。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入两行层序数组，空节点用 <code>null</code> 表示，输出 <code>true</code> 或 <code>false</code>。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+from collections import deque
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def build_tree(values):
+    if not values or values[0] == "null":
+        return None
+    root = TreeNode(values[0])
+    queue = deque([root])
+    i = 1
+    while queue and i &lt; len(values):
+        node = queue.popleft()
+        if i &lt; len(values) and values[i] != "null":
+            node.left = TreeNode(values[i])
+            queue.append(node.left)
+        i += 1
+        if i &lt; len(values) and values[i] != "null":
+            node.right = TreeNode(values[i])
+            queue.append(node.right)
+        i += 1
+    return root
+
+def same_tree(p, q):
+    if p is None and q is None:
+        return True
+    if p is None or q is None:
+        return False
+    return p.val == q.val and same_tree(p.left, q.left) and same_tree(p.right, q.right)
+
+lines = sys.stdin.read().strip().splitlines()
+p = build_tree(lines[0].split())
+q = build_tree(lines[1].split())
+print("true" if same_tree(p, q) else "false")</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="101-symmetric-tree.html">101. Symmetric Tree</a> <a class="problem-chip" href="112-path-sum.html">112. Path Sum</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="150-evaluate-reverse-polish-notation.html">上一题<br><strong>150. Evaluate Reverse Polish Notation</strong></a><a class="next" href="101-symmetric-tree.html">下一题<br><strong>101. Symmetric Tree</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

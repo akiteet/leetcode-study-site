@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>695. Max Area of Island - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="695-max-area-of-island">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">DFS / Matrix</p><h1>695. Max Area of Island</h1><p class="muted">在 0/1 网格中找出面积最大的岛屿。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">DFS</span><span class="tag">BFS</span><span class="tag">矩阵</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>连续相邻的 1 组成一座岛，面积就是岛上 1 的数量。要找最大的那座岛有多少格。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>遇到未访问陆地就 DFS，把整座岛走完并统计格子数。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>岛屿问题本质是连通块问题。DFS 很适合从一个点出发，把与它连通的所有点全部访问。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>二维数组用 <code>grid[r][c]</code> 访问。</li><li>递归函数可以返回当前连通块大小。</li><li>访问过的陆地可以直接改成 0。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>遍历每个格子。</li><li>遇到 1 就从这里启动 DFS。</li><li>DFS 中越界或遇到 0 返回 0。</li><li>把当前格改成 0，防止重复访问。</li><li>返回当前格面积 1 加上四个方向面积。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def maxAreaOfIsland(self, grid: list[list[int]]) -&gt; int:
+        rows, cols = len(grid), len(grid[0])
+
+        def dfs(r, c):
+            if r &lt; 0 or r >= rows or c &lt; 0 or c >= cols:
+                return 0
+            if grid[r][c] == 0:
+                return 0
+
+            grid[r][c] = 0
+            return 1 + dfs(r + 1, c) + dfs(r - 1, c) + dfs(r, c + 1) + dfs(r, c - 1)
+
+        best = 0
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    best = max(best, dfs(r, c))
+
+        return best</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>rows, cols</code>：矩阵边界。</li><li>越界返回 0。</li><li>水域返回 0。</li><li><code>grid[r][c] = 0</code>：标记已访问。</li><li>四个方向面积相加得到整座岛面积。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>遇到一块 1 后，DFS 会向上下左右扩散，直到这座岛所有 1 都被改成 0，并返回这座岛的面积。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(m * n)</code>，每个格子最多访问一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(m * n)</code>，最坏情况下递归栈覆盖整张网格。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">一定要在 DFS 中及时标记已访问，否则相邻陆地会互相递归，造成重复访问。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一行 <code>m n</code>，后面 <code>m</code> 行为 0/1 矩阵。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def max_area(grid):
+    rows, cols = len(grid), len(grid[0])
+    def dfs(r, c):
+        if r &lt; 0 or r >= rows or c &lt; 0 or c >= cols or grid[r][c] == 0:
+            return 0
+        grid[r][c] = 0
+        return 1 + dfs(r + 1, c) + dfs(r - 1, c) + dfs(r, c + 1) + dfs(r, c - 1)
+    best = 0
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 1:
+                best = max(best, dfs(r, c))
+    return best
+
+lines = sys.stdin.read().strip().splitlines()
+m, n = map(int, lines[0].split())
+grid = [list(map(int, lines[i + 1].split())) for i in range(m)]
+print(max_area(grid))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="200-number-of-islands.html">200. Number of Islands</a> <a class="problem-chip" href="994-rotting-oranges.html">994. Rotting Oranges</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="112-path-sum.html">上一题<br><strong>112. Path Sum</strong></a><a class="next" href="994-rotting-oranges.html">下一题<br><strong>994. Rotting Oranges</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

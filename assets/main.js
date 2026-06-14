@@ -133,6 +133,195 @@ const problems = [
     difficulty: "Medium",
     tags: ["DFS", "BFS", "矩阵"],
     href: "problems/200-number-of-islands.html"
+  },
+  {
+    slug: "128-longest-consecutive-sequence",
+    number: "128",
+    title: "Longest Consecutive Sequence",
+    cnTitle: "最长连续序列",
+    difficulty: "Medium",
+    tags: ["哈希表", "数组"],
+    href: "problems/128-longest-consecutive-sequence.html"
+  },
+  {
+    slug: "347-top-k-frequent-elements",
+    number: "347",
+    title: "Top K Frequent Elements",
+    cnTitle: "前 K 个高频元素",
+    difficulty: "Medium",
+    tags: ["哈希表", "堆", "计数"],
+    href: "problems/347-top-k-frequent-elements.html"
+  },
+  {
+    slug: "350-intersection-of-two-arrays-ii",
+    number: "350",
+    title: "Intersection of Two Arrays II",
+    cnTitle: "两个数组的交集 II",
+    difficulty: "Easy",
+    tags: ["哈希表", "双指针", "数组"],
+    href: "problems/350-intersection-of-two-arrays-ii.html"
+  },
+  {
+    slug: "011-container-with-most-water",
+    number: "11",
+    title: "Container With Most Water",
+    cnTitle: "盛最多水的容器",
+    difficulty: "Medium",
+    tags: ["双指针", "数组"],
+    href: "problems/011-container-with-most-water.html"
+  },
+  {
+    slug: "015-3sum",
+    number: "15",
+    title: "3Sum",
+    cnTitle: "三数之和",
+    difficulty: "Medium",
+    tags: ["双指针", "排序", "数组"],
+    href: "problems/015-3sum.html"
+  },
+  {
+    slug: "167-two-sum-ii-input-array-is-sorted",
+    number: "167",
+    title: "Two Sum II - Input Array Is Sorted",
+    cnTitle: "两数之和 II - 输入有序数组",
+    difficulty: "Medium",
+    tags: ["双指针", "数组"],
+    href: "problems/167-two-sum-ii-input-array-is-sorted.html"
+  },
+  {
+    slug: "209-minimum-size-subarray-sum",
+    number: "209",
+    title: "Minimum Size Subarray Sum",
+    cnTitle: "长度最小的子数组",
+    difficulty: "Medium",
+    tags: ["滑动窗口", "数组"],
+    href: "problems/209-minimum-size-subarray-sum.html"
+  },
+  {
+    slug: "424-longest-repeating-character-replacement",
+    number: "424",
+    title: "Longest Repeating Character Replacement",
+    cnTitle: "替换后的最长重复字符",
+    difficulty: "Medium",
+    tags: ["滑动窗口", "哈希表", "字符串"],
+    href: "problems/424-longest-repeating-character-replacement.html"
+  },
+  {
+    slug: "438-find-all-anagrams-in-a-string",
+    number: "438",
+    title: "Find All Anagrams in a String",
+    cnTitle: "找到字符串中所有字母异位词",
+    difficulty: "Medium",
+    tags: ["滑动窗口", "哈希表", "字符串"],
+    href: "problems/438-find-all-anagrams-in-a-string.html"
+  },
+  {
+    slug: "739-daily-temperatures",
+    number: "739",
+    title: "Daily Temperatures",
+    cnTitle: "每日温度",
+    difficulty: "Medium",
+    tags: ["栈", "单调栈", "数组"],
+    href: "problems/739-daily-temperatures.html"
+  },
+  {
+    slug: "155-min-stack",
+    number: "155",
+    title: "Min Stack",
+    cnTitle: "最小栈",
+    difficulty: "Medium",
+    tags: ["栈", "设计"],
+    href: "problems/155-min-stack.html"
+  },
+  {
+    slug: "150-evaluate-reverse-polish-notation",
+    number: "150",
+    title: "Evaluate Reverse Polish Notation",
+    cnTitle: "逆波兰表达式求值",
+    difficulty: "Medium",
+    tags: ["栈", "数组"],
+    href: "problems/150-evaluate-reverse-polish-notation.html"
+  },
+  {
+    slug: "100-same-tree",
+    number: "100",
+    title: "Same Tree",
+    cnTitle: "相同的树",
+    difficulty: "Easy",
+    tags: ["二叉树", "DFS"],
+    href: "problems/100-same-tree.html"
+  },
+  {
+    slug: "101-symmetric-tree",
+    number: "101",
+    title: "Symmetric Tree",
+    cnTitle: "对称二叉树",
+    difficulty: "Easy",
+    tags: ["二叉树", "DFS", "BFS"],
+    href: "problems/101-symmetric-tree.html"
+  },
+  {
+    slug: "112-path-sum",
+    number: "112",
+    title: "Path Sum",
+    cnTitle: "路径总和",
+    difficulty: "Easy",
+    tags: ["二叉树", "DFS"],
+    href: "problems/112-path-sum.html"
+  },
+  {
+    slug: "695-max-area-of-island",
+    number: "695",
+    title: "Max Area of Island",
+    cnTitle: "岛屿的最大面积",
+    difficulty: "Medium",
+    tags: ["DFS", "BFS", "矩阵"],
+    href: "problems/695-max-area-of-island.html"
+  },
+  {
+    slug: "994-rotting-oranges",
+    number: "994",
+    title: "Rotting Oranges",
+    cnTitle: "腐烂的橘子",
+    difficulty: "Medium",
+    tags: ["BFS", "队列", "矩阵"],
+    href: "problems/994-rotting-oranges.html"
+  },
+  {
+    slug: "130-surrounded-regions",
+    number: "130",
+    title: "Surrounded Regions",
+    cnTitle: "被围绕的区域",
+    difficulty: "Medium",
+    tags: ["DFS", "BFS", "矩阵"],
+    href: "problems/130-surrounded-regions.html"
+  },
+  {
+    slug: "070-climbing-stairs",
+    number: "70",
+    title: "Climbing Stairs",
+    cnTitle: "爬楼梯",
+    difficulty: "Easy",
+    tags: ["动态规划入门"],
+    href: "problems/070-climbing-stairs.html"
+  },
+  {
+    slug: "198-house-robber",
+    number: "198",
+    title: "House Robber",
+    cnTitle: "打家劫舍",
+    difficulty: "Medium",
+    tags: ["动态规划入门", "数组"],
+    href: "problems/198-house-robber.html"
+  },
+  {
+    slug: "053-maximum-subarray",
+    number: "53",
+    title: "Maximum Subarray",
+    cnTitle: "最大子数组和",
+    difficulty: "Medium",
+    tags: ["动态规划入门", "数组"],
+    href: "problems/053-maximum-subarray.html"
   }
 ];
 

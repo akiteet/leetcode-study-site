@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>350. Intersection of Two Arrays II - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="350-intersection-of-two-arrays-ii">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Hash Table / Array</p><h1>350. Intersection of Two Arrays II</h1><p class="muted">求两个数组的交集，重复元素按出现次数保留。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">哈希表</span><span class="tag">双指针</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>两个数组里都出现的数字要输出。如果某个数字在两个数组中分别出现 2 次和 3 次，交集里只能放 2 次。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>先统计较短数组的数字次数，再用另一个数组逐个抵消。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>因为重复次数不能丢，普通集合会把重复信息去掉。用哈希表记录剩余次数，刚好能处理“最多取共同出现次数”的要求。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>dict.get(key, 0)</code> 可以安全读取默认值。</li><li>列表 <code>append</code> 用于收集答案。</li><li>可以交换两个数组，让计数字典尽量小。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>让 <code>nums1</code> 指向较短数组。</li><li>统计 <code>nums1</code> 中每个数字出现次数。</li><li>遍历 <code>nums2</code>。</li><li>如果当前数字还有剩余次数，就加入答案并减 1。</li><li>返回答案列表。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def intersect(self, nums1: list[int], nums2: list[int]) -&gt; list[int]:
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+
+        count = {}
+        for num in nums1:
+            count[num] = count.get(num, 0) + 1
+
+        ans = []
+        for num in nums2:
+            if count.get(num, 0) > 0:
+                ans.append(num)
+                count[num] -= 1
+
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>if len(nums1) > len(nums2)</code>：优先统计较短数组，节省空间。</li><li><code>count[num]</code>：记录每个数字还能使用几次。</li><li><code>ans = []</code>：保存交集结果。</li><li><code>count.get(num, 0) > 0</code>：只有双方都有剩余次数才加入。</li><li><code>count[num] -= 1</code>：避免同一次数被重复使用。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>nums1 = [1,2,2,1]</code>，<code>nums2 = [2,2]</code>。统计后 2 有 2 次，遍历第二个数组时两个 2 都能加入，答案是 <code>[2,2]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(m + n)</code>，两个数组各遍历一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(min(m, n))</code>，只统计较短数组。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不能直接用 <code>set</code> 求交集，因为这题要求保留重复次数。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入 <code>m n</code>，后面分别是两个数组，输出交集。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def intersect(nums1, nums2):
+    if len(nums1) > len(nums2):
+        nums1, nums2 = nums2, nums1
+    count = {}
+    for num in nums1:
+        count[num] = count.get(num, 0) + 1
+    ans = []
+    for num in nums2:
+        if count.get(num, 0) > 0:
+            ans.append(num)
+            count[num] -= 1
+    return ans
+
+data = sys.stdin.read().strip().split()
+m, n = map(int, data[:2])
+nums1 = list(map(int, data[2:2 + m]))
+nums2 = list(map(int, data[2 + m:2 + m + n]))
+print(*intersect(nums1, nums2))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="242-valid-anagram.html">242. Valid Anagram</a> <a class="problem-chip" href="167-two-sum-ii-input-array-is-sorted.html">167. Two Sum II</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="347-top-k-frequent-elements.html">上一题<br><strong>347. Top K Frequent Elements</strong></a><a class="next" href="011-container-with-most-water.html">下一题<br><strong>11. Container With Most Water</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

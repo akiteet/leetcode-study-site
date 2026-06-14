@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11. Container With Most Water - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="011-container-with-most-water">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Two Pointers</p><h1>11. Container With Most Water</h1><p class="muted">从多条竖线中选两条，使它们和 x 轴围成的容器能装最多水。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">双指针</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每个高度是一块挡板，选左右两块挡板，水量等于较短挡板高度乘以两挡板距离。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>左右指针从两端开始，每次移动较短的那一边。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>面积由宽度和短板共同决定。两端开始时宽度最大，之后宽度只会变小，所以只有移动短板才可能找到更高的短板来弥补宽度损失。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>双指针常用 <code>left</code>、<code>right</code> 表示两端。</li><li><code>min(a, b)</code> 可取短板高度。</li><li><code>while left &lt; right</code> 用于两端向中间收缩。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>设置左右指针。</li><li>计算当前面积。</li><li>更新最大面积。</li><li>比较左右高度，移动较短的一边。</li><li>直到两个指针相遇。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def maxArea(self, height: list[int]) -&gt; int:
+        left, right = 0, len(height) - 1
+        best = 0
+
+        while left &lt; right:
+            width = right - left
+            water = min(height[left], height[right]) * width
+            best = max(best, water)
+
+            if height[left] &lt; height[right]:
+                left += 1
+            else:
+                right -= 1
+
+        return best</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>left, right</code>：从最宽的容器开始。</li><li><code>width</code>：两条线之间的距离。</li><li><code>min(...)</code>：水位由短板决定。</li><li><code>best</code>：保存最大面积。</li><li>移动短板：尝试找到更高的边界。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>输入 <code>[1,8,6,2,5,4,8,3,7]</code>。初始面积为 8，移动左侧短板后遇到高度 8，和右侧 7 形成面积 49。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，左右指针总共移动 n 次以内。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>，只使用常数变量。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不要移动较高的一边。较高边不是当前瓶颈，移动它只会让宽度变小且短板不变。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 <code>n</code>，后面跟着 <code>n</code> 个高度，输出最大面积。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def max_area(height):
+    left, right = 0, len(height) - 1
+    best = 0
+    while left &lt; right:
+        best = max(best, min(height[left], height[right]) * (right - left))
+        if height[left] &lt; height[right]:
+            left += 1
+        else:
+            right -= 1
+    return best
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+height = list(map(int, data[1:1 + n]))
+print(max_area(height))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="167-two-sum-ii-input-array-is-sorted.html">167. Two Sum II</a> <a class="problem-chip" href="015-3sum.html">15. 3Sum</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="350-intersection-of-two-arrays-ii.html">上一题<br><strong>350. Intersection of Two Arrays II</strong></a><a class="next" href="015-3sum.html">下一题<br><strong>15. 3Sum</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

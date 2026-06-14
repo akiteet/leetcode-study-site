@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>198. House Robber - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="198-house-robber">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Dynamic Programming</p><h1>198. House Robber</h1><p class="muted">不能偷相邻房子，求能偷到的最大金额。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">动态规划入门</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每间房子有钱，但相邻两间不能同时偷。你需要在不触发警报的前提下拿到最多钱。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>到当前房子时，选择“偷当前 + 前前最优”或“不偷当前 + 前一个最优”。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>每个位置的选择会影响相邻位置，当前最优依赖前面状态，这是动态规划的特征。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>max(a, b)</code> 表示在两种选择里取更优。</li><li>滚动变量可保存前一个和前两个状态。</li><li>遍历数组时每个值代表当前房子金额。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li><code>prev2</code> 表示前前个房子的最优。</li><li><code>prev1</code> 表示前一个房子的最优。</li><li>遍历当前金额。</li><li>当前最优为 <code>max(prev1, prev2 + money)</code>。</li><li>滚动更新状态。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def rob(self, nums: list[int]) -&gt; int:
+        prev2 = 0
+        prev1 = 0
+
+        for money in nums:
+            current = max(prev1, prev2 + money)
+            prev2, prev1 = prev1, current
+
+        return prev1</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>prev2</code>：不相邻的上一个可组合状态。</li><li><code>prev1</code>：前一个位置的最大收益。</li><li><code>prev2 + money</code>：偷当前房子。</li><li><code>prev1</code>：不偷当前房子。</li><li><code>prev1</code> 最终保存全局最优。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[2,7,9,3,1]</code>：偷 2 和 9 再加 1，总额 12，是不偷相邻房子的最大值。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不是简单选择所有奇数位或偶数位，因为局部金额大小会改变最优组合。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 <code>n</code>，后面跟着 <code>n</code> 个房子金额，输出最大金额。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def rob(nums):
+    prev2 = 0
+    prev1 = 0
+    for money in nums:
+        current = max(prev1, prev2 + money)
+        prev2, prev1 = prev1, current
+    return prev1
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+nums = list(map(int, data[1:1 + n]))
+print(rob(nums))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="070-climbing-stairs.html">70. Climbing Stairs</a> <a class="problem-chip" href="053-maximum-subarray.html">53. Maximum Subarray</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="070-climbing-stairs.html">上一题<br><strong>70. Climbing Stairs</strong></a><a class="next" href="053-maximum-subarray.html">下一题<br><strong>53. Maximum Subarray</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

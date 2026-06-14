@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>70. Climbing Stairs - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="070-climbing-stairs">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Dynamic Programming</p><h1>70. Climbing Stairs</h1><p class="muted">每次爬 1 或 2 阶，爬到第 n 阶共有多少种方法。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">动态规划入门</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>到达第 n 阶的最后一步，要么从第 n-1 阶爬 1 阶上来，要么从第 n-2 阶爬 2 阶上来。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p><code>dp[n] = dp[n - 1] + dp[n - 2]</code>。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>问题问“有多少种方法”，并且大问题可以由前面两个小问题组合出来，这是动态规划的典型信号。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>变量滚动可以替代完整 dp 数组。</li><li><code>for</code> 循环适合从小台阶推到大台阶。</li><li>多变量赋值 <code>a, b = b, a + b</code> 可同时更新。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>第 1 阶有 1 种方法。</li><li>第 2 阶有 2 种方法。</li><li>从第 3 阶开始，答案等于前两阶之和。</li><li>用两个变量滚动保存前两项。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def climbStairs(self, n: int) -&gt; int:
+        if n &lt;= 2:
+            return n
+
+        prev2, prev1 = 1, 2
+        for _ in range(3, n + 1):
+            current = prev1 + prev2
+            prev2, prev1 = prev1, current
+
+        return prev1</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>n &lt;= 2</code>：基础情况。</li><li><code>prev2</code>：表示到前两阶的方法数。</li><li><code>prev1</code>：表示到前一阶的方法数。</li><li><code>current</code>：当前阶方法数。</li><li>循环结束后 <code>prev1</code> 就是第 n 阶答案。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>n = 4</code>：第 1 阶 1 种，第 2 阶 2 种，第 3 阶 3 种，第 4 阶 5 种。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>，只保留两个历史状态。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">第 2 阶是 2 种，不是 1 种：可以 1+1，也可以 2。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入一个整数 <code>n</code>，输出爬楼梯方法数。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def climb_stairs(n):
+    if n &lt;= 2:
+        return n
+    prev2, prev1 = 1, 2
+    for _ in range(3, n + 1):
+        current = prev1 + prev2
+        prev2, prev1 = prev1, current
+    return prev1
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+print(climb_stairs(n))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="198-house-robber.html">198. House Robber</a> <a class="problem-chip" href="053-maximum-subarray.html">53. Maximum Subarray</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="130-surrounded-regions.html">上一题<br><strong>130. Surrounded Regions</strong></a><a class="next" href="198-house-robber.html">下一题<br><strong>198. House Robber</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

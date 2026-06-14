@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>130. Surrounded Regions - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="130-surrounded-regions">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">DFS / Matrix</p><h1>130. Surrounded Regions</h1><p class="muted">把被 X 完全包围的 O 改成 X。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">DFS</span><span class="tag">BFS</span><span class="tag">矩阵</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>如果一片 O 没有连到边界，就说明它被 X 包围，需要改成 X。和边界相连的 O 不能改。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>从边界 O 出发标记安全区域，剩下未标记的 O 全部翻转。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>直接找“被包围”的区域不容易，但“不被包围”的 O 一定能连到边界。反过来从边界找安全 O，问题就简单了。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>二维矩阵可原地修改。</li><li>DFS 可从边界向内扩散。</li><li>临时标记如 <code>"S"</code> 可表示安全。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>扫描四条边界。</li><li>遇到边界 O 就 DFS 标记为安全。</li><li>遍历整张棋盘。</li><li>未标记的 O 改成 X。</li><li>安全标记 S 改回 O。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def solve(self, board: list[list[str]]) -&gt; None:
+        if not board:
+            return
+
+        rows, cols = len(board), len(board[0])
+
+        def dfs(r, c):
+            if r &lt; 0 or r >= rows or c &lt; 0 or c >= cols or board[r][c] != "O":
+                return
+            board[r][c] = "S"
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
+
+        for r in range(rows):
+            dfs(r, 0)
+            dfs(r, cols - 1)
+        for c in range(cols):
+            dfs(0, c)
+            dfs(rows - 1, c)
+
+        for r in range(rows):
+            for c in range(cols):
+                if board[r][c] == "O":
+                    board[r][c] = "X"
+                elif board[r][c] == "S":
+                    board[r][c] = "O"</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>dfs</code>：标记从边界能到达的安全 O。</li><li><code>board[r][c] = "S"</code>：临时安全标记。</li><li>先处理左右边界，再处理上下边界。</li><li>剩余 <code>O</code> 是被包围区域。</li><li><code>S</code> 最后恢复为 <code>O</code>。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>如果中间一片 O 没有连接到边界，它不会被 DFS 标记为 S，最后会被改成 X；边界连通的 O 会保留。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(m * n)</code>，每个格子最多访问常数次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(m * n)</code>，最坏情况下递归栈可能覆盖整张棋盘。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">不要从内部 O 开始判断是否被包围。边界反向标记更简单，也更不容易漏情况。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入 <code>m n</code>，后面 <code>m</code> 行每行为 X/O 字符串，输出修改后的棋盘。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def solve(board):
+    rows, cols = len(board), len(board[0])
+    def dfs(r, c):
+        if r &lt; 0 or r >= rows or c &lt; 0 or c >= cols or board[r][c] != "O":
+            return
+        board[r][c] = "S"
+        dfs(r + 1, c)
+        dfs(r - 1, c)
+        dfs(r, c + 1)
+        dfs(r, c - 1)
+    for r in range(rows):
+        dfs(r, 0)
+        dfs(r, cols - 1)
+    for c in range(cols):
+        dfs(0, c)
+        dfs(rows - 1, c)
+    for r in range(rows):
+        for c in range(cols):
+            if board[r][c] == "O":
+                board[r][c] = "X"
+            elif board[r][c] == "S":
+                board[r][c] = "O"
+
+lines = sys.stdin.read().strip().splitlines()
+m, n = map(int, lines[0].split())
+board = [list(lines[i + 1].strip()) for i in range(m)]
+solve(board)
+for row in board:
+    print("".join(row))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="200-number-of-islands.html">200. Number of Islands</a> <a class="problem-chip" href="695-max-area-of-island.html">695. Max Area of Island</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="994-rotting-oranges.html">上一题<br><strong>994. Rotting Oranges</strong></a><a class="next" href="070-climbing-stairs.html">下一题<br><strong>70. Climbing Stairs</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

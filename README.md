@@ -11,7 +11,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 首页学习路线
 - 题型分类入口
 - 题目搜索
-- 15 道入门题笔记
+- 36 道入门题笔记
 - 每题包含核心思路、解题过程、Python 代码、逐行解释、复杂度分析、易错点和 ACM 模式改写
 
 ## 已整理题目
@@ -31,6 +31,27 @@ https://akiteet.github.io/leetcode-study-site/
 - 226. Invert Binary Tree
 - 102. Binary Tree Level Order Traversal
 - 200. Number of Islands
+- 128. Longest Consecutive Sequence
+- 347. Top K Frequent Elements
+- 350. Intersection of Two Arrays II
+- 11. Container With Most Water
+- 15. 3Sum
+- 167. Two Sum II - Input Array Is Sorted
+- 209. Minimum Size Subarray Sum
+- 424. Longest Repeating Character Replacement
+- 438. Find All Anagrams in a String
+- 739. Daily Temperatures
+- 155. Min Stack
+- 150. Evaluate Reverse Polish Notation
+- 100. Same Tree
+- 101. Symmetric Tree
+- 112. Path Sum
+- 695. Max Area of Island
+- 994. Rotting Oranges
+- 130. Surrounded Regions
+- 70. Climbing Stairs
+- 198. House Robber
+- 53. Maximum Subarray
 
 ## 本地打开
 
