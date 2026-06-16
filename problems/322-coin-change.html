@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>322. Coin Change - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="322-coin-change">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Dynamic Programming</p><h1>322. Coin Change</h1><p class="muted">用给定硬币凑出金额 amount，求最少硬币数。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">动态规划入门</span><span class="tag">完全背包</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每种硬币可以用无限次。如果无法凑出目标金额，返回 -1。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>设 <code>dp[x]</code> 为凑出金额 x 的最少硬币数，枚举最后一枚硬币。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>如果最后用了面额 <code>coin</code>，那么前面必须凑出 <code>x - coin</code>，所以可以从已解决的小金额推到大金额。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>这是完全背包的最少数量问题。</li><li><code>amount + 1</code> 可作为不可能的大值。</li><li>硬币可以重复使用，所以金额从小到大遍历。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化 <code>dp[0] = 0</code>，其他为大值。</li><li>从 1 到 amount 遍历每个金额。</li><li>枚举每个硬币。</li><li>如果硬币不超过当前金额，就尝试更新。</li><li>最后看 <code>dp[amount]</code> 是否仍为大值。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def coinChange(self, coins: list[int], amount: int) -&gt; int:
+        dp = [amount + 1] * (amount + 1)
+        dp[0] = 0
+
+        for money in range(1, amount + 1):
+            for coin in coins:
+                if coin &lt;= money:
+                    dp[money] = min(dp[money], dp[money - coin] + 1)
+
+        return dp[amount] if dp[amount] != amount + 1 else -1</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>dp[money]</code> 表示当前金额的最少硬币数。</li><li><code>dp[money - coin] + 1</code> 表示最后加一枚 <code>coin</code>。</li><li>不断取最小值。</li><li>如果最后还是初始大值，说明凑不出。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>coins=[1,2,5]</code>，<code>amount=11</code>，最少是 <code>5+5+1</code>，答案 3。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(amount * len(coins))</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(amount)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>无法凑出要返回 -1。</li><li>硬币可以无限次使用。</li><li>初始化值不能是 0，否则无法区分未计算状态。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入 n 和 amount，再输入 n 个硬币面额，输出最少硬币数。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() + split() + map() 读取，print() 输出
+n, amount = map(int, input().split())
+coins = list(map(int, input().split()))
+
+dp = [amount + 1] * (amount + 1)
+dp[0] = 0
+for money in range(1, amount + 1):
+    for coin in coins:
+        if coin &lt;= money:
+            dp[money] = min(dp[money], dp[money - coin] + 1)
+
+print(dp[amount] if dp[amount] != amount + 1 else -1)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="279-perfect-squares.html">279. Perfect Squares</a> <a class="problem-chip" href="139-word-break.html">139. Word Break</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="279-perfect-squares.html">上一题<br><strong>279. Perfect Squares</strong></a><a class="next" href="139-word-break.html">下一题<br><strong>139. Word Break</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

@@ -11,7 +11,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 首页学习路线
 - 题型分类入口
 - 题目搜索
-- 68 道入门题笔记
+- 80 道入门题笔记
 - 每题包含核心思路、解题过程、Python 代码、逐行解释、复杂度分析、易错点和 ACM 模式改写
 
 ## 已整理题目
@@ -84,6 +84,18 @@ https://akiteet.github.io/leetcode-study-site/
 - 199. Binary Tree Right Side View
 - 114. Flatten Binary Tree to Linked List
 - 105. Construct Binary Tree from Preorder and Inorder Traversal
+- 394. Decode String
+- 84. Largest Rectangle in Histogram
+- 215. Kth Largest Element in an Array
+- 295. Find Median from Data Stream
+- 55. Jump Game
+- 45. Jump Game II
+- 763. Partition Labels
+- 118. Pascal's Triangle
+- 279. Perfect Squares
+- 322. Coin Change
+- 139. Word Break
+- 300. Longest Increasing Subsequence
 
 ## 本地打开
 

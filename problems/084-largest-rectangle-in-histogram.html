@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>84. Largest Rectangle in Histogram - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="084-largest-rectangle-in-histogram">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Stack</p><h1>84. Largest Rectangle in Histogram</h1><p class="muted">给定柱子高度，找能组成的最大矩形面积。</p></div><div class="tags"><span class="tag hard">Hard</span><span class="tag">栈</span><span class="tag">单调栈</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每根柱子都可以作为矩形的最低高度，关键是找它能向左、向右延伸多远。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用单调递增栈，在遇到更矮柱子时结算被弹出柱子的最大面积。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>当右侧出现更矮柱子时，栈顶柱子的右边界就确定了；它左边界是弹出后新的栈顶。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>单调栈保存下标，而不是只保存高度。</li><li>在末尾补一个高度 0，可以强制结算所有柱子。</li><li>宽度计算是 <code>i - stack[-1] - 1</code>。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>在高度数组前后各加一个 0，方便处理边界。</li><li>维护一个高度递增的下标栈。</li><li>当前高度小于栈顶高度时，弹出栈顶并计算面积。</li><li>弹出后新的栈顶是左边第一个更矮柱子。</li><li>不断更新最大面积。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def largestRectangleArea(self, heights: list[int]) -&gt; int:
+        heights = [0] + heights + [0]
+        stack = []
+        best = 0
+
+        for i, height in enumerate(heights):
+            while stack and heights[stack[-1]] &gt; height:
+                mid = stack.pop()
+                width = i - stack[-1] - 1
+                best = max(best, heights[mid] * width)
+            stack.append(i)
+
+        return best</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>补 0 后，所有柱子最终都会被弹出结算。</li><li><code>mid</code> 是当前作为最低高度的柱子。</li><li>右边界是当前下标 <code>i</code> 的前一个位置。</li><li>左边界是弹出后栈顶的后一个位置。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[2,1,5,6,2,3]</code> 中高度 5 和 6 可以形成宽度 2 的矩形，面积 10。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，每个下标最多入栈和出栈一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n)</code>，单调栈。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>栈里放下标，方便算宽度。</li><li>宽度不是 <code>i - mid</code>，而是 <code>i - stack[-1] - 1</code>。</li><li>末尾不补 0 容易漏掉递增尾巴。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一行 n，第二行 n 个高度，输出最大矩形面积。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() + split() + map() 读取数组，print() 输出答案
+n = int(input())
+heights = list(map(int, input().split()))
+
+heights = [0] + heights + [0]
+stack = []
+best = 0
+for i, height in enumerate(heights):
+    while stack and heights[stack[-1]] &gt; height:
+        mid = stack.pop()
+        width = i - stack[-1] - 1
+        best = max(best, heights[mid] * width)
+    stack.append(i)
+
+print(best)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="739-daily-temperatures.html">739. Daily Temperatures</a> <a class="problem-chip" href="394-decode-string.html">394. Decode String</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="394-decode-string.html">上一题<br><strong>394. Decode String</strong></a><a class="next" href="215-kth-largest-element-in-an-array.html">下一题<br><strong>215. Kth Largest Element in an Array</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

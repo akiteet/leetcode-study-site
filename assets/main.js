@@ -610,6 +610,114 @@ const problems = [
     difficulty: "Medium",
     tags: ["二叉树", "递归", "哈希表"],
     href: "problems/105-construct-binary-tree-from-preorder-and-inorder-traversal.html"
+  },
+  {
+    slug: "394-decode-string",
+    number: "394",
+    title: "Decode String",
+    cnTitle: "字符串解码",
+    difficulty: "Medium",
+    tags: ["栈", "字符串"],
+    href: "problems/394-decode-string.html"
+  },
+  {
+    slug: "084-largest-rectangle-in-histogram",
+    number: "84",
+    title: "Largest Rectangle in Histogram",
+    cnTitle: "柱状图中最大的矩形",
+    difficulty: "Hard",
+    tags: ["栈", "单调栈"],
+    href: "problems/084-largest-rectangle-in-histogram.html"
+  },
+  {
+    slug: "215-kth-largest-element-in-an-array",
+    number: "215",
+    title: "Kth Largest Element in an Array",
+    cnTitle: "数组中的第 K 个最大元素",
+    difficulty: "Medium",
+    tags: ["堆", "Top K"],
+    href: "problems/215-kth-largest-element-in-an-array.html"
+  },
+  {
+    slug: "295-find-median-from-data-stream",
+    number: "295",
+    title: "Find Median from Data Stream",
+    cnTitle: "数据流的中位数",
+    difficulty: "Hard",
+    tags: ["堆", "数据流"],
+    href: "problems/295-find-median-from-data-stream.html"
+  },
+  {
+    slug: "055-jump-game",
+    number: "55",
+    title: "Jump Game",
+    cnTitle: "跳跃游戏",
+    difficulty: "Medium",
+    tags: ["贪心", "数组"],
+    href: "problems/055-jump-game.html"
+  },
+  {
+    slug: "045-jump-game-ii",
+    number: "45",
+    title: "Jump Game II",
+    cnTitle: "跳跃游戏 II",
+    difficulty: "Medium",
+    tags: ["贪心", "数组"],
+    href: "problems/045-jump-game-ii.html"
+  },
+  {
+    slug: "763-partition-labels",
+    number: "763",
+    title: "Partition Labels",
+    cnTitle: "划分字母区间",
+    difficulty: "Medium",
+    tags: ["贪心", "字符串"],
+    href: "problems/763-partition-labels.html"
+  },
+  {
+    slug: "118-pascals-triangle",
+    number: "118",
+    title: "Pascal's Triangle",
+    cnTitle: "杨辉三角",
+    difficulty: "Easy",
+    tags: ["动态规划入门", "数组"],
+    href: "problems/118-pascals-triangle.html"
+  },
+  {
+    slug: "279-perfect-squares",
+    number: "279",
+    title: "Perfect Squares",
+    cnTitle: "完全平方数",
+    difficulty: "Medium",
+    tags: ["动态规划入门", "完全背包"],
+    href: "problems/279-perfect-squares.html"
+  },
+  {
+    slug: "322-coin-change",
+    number: "322",
+    title: "Coin Change",
+    cnTitle: "零钱兑换",
+    difficulty: "Medium",
+    tags: ["动态规划入门", "完全背包"],
+    href: "problems/322-coin-change.html"
+  },
+  {
+    slug: "139-word-break",
+    number: "139",
+    title: "Word Break",
+    cnTitle: "单词拆分",
+    difficulty: "Medium",
+    tags: ["动态规划入门", "字符串", "哈希表"],
+    href: "problems/139-word-break.html"
+  },
+  {
+    slug: "300-longest-increasing-subsequence",
+    number: "300",
+    title: "Longest Increasing Subsequence",
+    cnTitle: "最长递增子序列",
+    difficulty: "Medium",
+    tags: ["动态规划入门", "数组"],
+    href: "problems/300-longest-increasing-subsequence.html"
   }
 ];
 

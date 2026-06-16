@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>118. Pascal&#x27;s Triangle - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="118-pascals-triangle">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Dynamic Programming</p><h1>118. Pascal&#x27;s Triangle</h1><p class="muted">生成杨辉三角的前 numRows 行。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">动态规划入门</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每一行两边都是 1，中间的数等于上一行相邻两个数之和。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>从上到下构造，每一行依赖上一行。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>当前行的每个中间位置都有明确来源：上一行左上和右上。这个局部递推就是动态规划的入门形式。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>二维列表可以保存所有行。</li><li>第 <code>i</code> 行长度是 <code>i + 1</code>。</li><li>中间位置范围是 <code>1</code> 到 <code>i - 1</code>。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建空答案列表。</li><li>逐行创建长度为 <code>i + 1</code>、全是 1 的列表。</li><li>中间位置用上一行两个数相加填充。</li><li>把当前行加入答案。</li><li>返回答案。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def generate(self, numRows: int) -&gt; list[list[int]]:
+        ans = []
+        for i in range(numRows):
+            row = [1] * (i + 1)
+            for j in range(1, i):
+                row[j] = ans[i - 1][j - 1] + ans[i - 1][j]
+            ans.append(row)
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>row = [1] * (i + 1)</code> 先放好两边的 1。</li><li><code>j</code> 只遍历中间位置。</li><li><code>ans[i - 1]</code> 是上一行。</li><li>每行算完加入 <code>ans</code>。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>numRows = 5</code> 时输出 <code>[1]、[1,1]、[1,2,1]、[1,3,3,1]、[1,4,6,4,1]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(numRows^2)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(numRows^2)</code>，需要返回所有行。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不要修改上一行。</li><li>第一行和第二行没有中间位置。</li><li>题目要返回所有行，不是只返回最后一行。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入行数，逐行输出杨辉三角。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取；split() / map() 可处理多数字输入；print() 输出
+# values = list(map(int, input().split()))
+num_rows = int(input())
+
+ans = []
+for i in range(num_rows):
+    row = [1] * (i + 1)
+    for j in range(1, i):
+        row[j] = ans[i - 1][j - 1] + ans[i - 1][j]
+    ans.append(row)
+    print(*row)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="070-climbing-stairs.html">70. Climbing Stairs</a> <a class="problem-chip" href="279-perfect-squares.html">279. Perfect Squares</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="763-partition-labels.html">上一题<br><strong>763. Partition Labels</strong></a><a class="next" href="279-perfect-squares.html">下一题<br><strong>279. Perfect Squares</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

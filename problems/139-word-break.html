@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>139. Word Break - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="139-word-break">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Dynamic Programming</p><h1>139. Word Break</h1><p class="muted">判断字符串能否由字典中的单词拼接而成。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">动态规划入门</span><span class="tag">字符串</span><span class="tag">哈希表</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>给你一个字符串和一个单词表，问能不能把字符串切成若干段，每段都在单词表中。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>设 <code>dp[i]</code> 表示前 i 个字符能否被成功拆分。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>如果前 j 个字符可以拆分，并且 <code>s[j:i]</code> 在字典里，那么前 i 个字符也可以拆分。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>字符串切片 <code>s[j:i]</code> 表示左闭右开。</li><li>用 <code>set</code> 查询单词是否存在更快。</li><li>布尔 DP 常用 <code>True / False</code> 表示可达。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>把单词列表转成集合。</li><li>初始化 <code>dp[0] = True</code>，表示空串可拆分。</li><li>枚举结束位置 <code>i</code>。</li><li>枚举切分位置 <code>j</code>。</li><li>如果 <code>dp[j]</code> 为真且 <code>s[j:i]</code> 在集合中，设置 <code>dp[i] = True</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def wordBreak(self, s: str, wordDict: list[str]) -&gt; bool:
+        words = set(wordDict)
+        dp = [False] * (len(s) + 1)
+        dp[0] = True
+
+        for i in range(1, len(s) + 1):
+            for j in range(i):
+                if dp[j] and s[j:i] in words:
+                    dp[i] = True
+                    break
+
+        return dp[len(s)]</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>dp[i]</code> 只关心前缀 <code>s[:i]</code>。</li><li><code>dp[0] = True</code> 是所有拆分的起点。</li><li><code>s[j:i]</code> 是最后一个单词候选。</li><li>找到一个合法切法就可以 <code>break</code>。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>s=&amp;#x27;leetcode&amp;#x27;</code>，字典 <code>[&amp;#x27;leet&amp;#x27;,&amp;#x27;code&amp;#x27;]</code>，可以拆成 <code>leet + code</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n^2 * L)</code>，切片和查询会带来字符串长度成本。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n + m)</code>，DP 数组和单词集合。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li><code>dp[0]</code> 必须是 True。</li><li>切片右边界 <code>i</code> 不包含自身。</li><li>单词可以重复使用。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入字符串，再输入一行词典，用空格分隔，输出是否可拆分。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() + split() 读取词典；map() 常用于数字输入；print() 输出
+# nums = list(map(int, input().split()))
+s = input().strip()
+word_dict = input().split()
+
+words = set(word_dict)
+dp = [False] * (len(s) + 1)
+dp[0] = True
+for i in range(1, len(s) + 1):
+    for j in range(i):
+        if dp[j] and s[j:i] in words:
+            dp[i] = True
+            break
+
+print(dp[len(s)])</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="322-coin-change.html">322. Coin Change</a> <a class="problem-chip" href="300-longest-increasing-subsequence.html">300. LIS</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="322-coin-change.html">上一题<br><strong>322. Coin Change</strong></a><a class="next" href="300-longest-increasing-subsequence.html">下一题<br><strong>300. Longest Increasing Subsequence</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

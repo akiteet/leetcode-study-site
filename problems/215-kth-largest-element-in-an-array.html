@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>215. Kth Largest Element in an Array - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="215-kth-largest-element-in-an-array">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Heap</p><h1>215. Kth Largest Element in an Array</h1><p class="muted">不需要完全排序，找数组中第 k 大的元素。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">堆</span><span class="tag">Top K</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>第 k 大不是第 k 个不同元素，而是排序后从大到小数第 k 个位置的值。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>维护一个大小为 k 的小根堆，堆顶就是当前第 k 大。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>只关心前 k 大，没必要保存所有元素的完整顺序。小根堆可以把前 k 大里最小的放在堆顶，方便被更大的数替换。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>Python 的 <code>heapq</code> 默认是小根堆。</li><li><code>heappush</code> 入堆，<code>heappop</code> 弹出最小值。</li><li>堆大小保持为 k，最后堆顶就是答案。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建空堆。</li><li>遍历数组，把每个数放进堆。</li><li>如果堆大小超过 k，就弹出最小值。</li><li>遍历结束后，堆中保留最大的 k 个数。</li><li>返回堆顶。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>import heapq
+
+class Solution:
+    def findKthLargest(self, nums: list[int], k: int) -&gt; int:
+        heap = []
+        for num in nums:
+            heapq.heappush(heap, num)
+            if len(heap) &gt; k:
+                heapq.heappop(heap)
+        return heap[0]</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>堆中最多保留 k 个元素。</li><li>超过 k 时弹出最小值，说明它不可能是前 k 大。</li><li>最后剩下的是最大的 k 个数。</li><li>这 k 个数里最小的就是第 k 大。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[3,2,1,5,6,4]</code>，<code>k=2</code>，第二大是 5。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n log k)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(k)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>第 k 大不是下标 k。</li><li>重复元素也要计入排名。</li><li>小根堆保留 k 个最大值，不是大根堆保留所有值。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入 n 和 k，再输入数组，输出第 k 大。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() + split() + map() 读取，print() 输出
+import heapq
+
+n, k = map(int, input().split())
+nums = list(map(int, input().split()))
+
+heap = []
+for num in nums:
+    heapq.heappush(heap, num)
+    if len(heap) &gt; k:
+        heapq.heappop(heap)
+
+print(heap[0])</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="347-top-k-frequent-elements.html">347. Top K Frequent</a> <a class="problem-chip" href="295-find-median-from-data-stream.html">295. Median Finder</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="084-largest-rectangle-in-histogram.html">上一题<br><strong>84. Largest Rectangle in Histogram</strong></a><a class="next" href="295-find-median-from-data-stream.html">下一题<br><strong>295. Find Median from Data Stream</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

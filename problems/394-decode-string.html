@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>394. Decode String - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="394-decode-string">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Stack</p><h1>394. Decode String</h1><p class="muted">把形如 3[a2[c]] 的压缩字符串还原成 accaccacc。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">栈</span><span class="tag">字符串</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>数字表示后面括号里的字符串要重复多少次，括号可以嵌套，所以要先处理最里面的括号。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>遇到左括号就把当前数字和当前字符串入栈，遇到右括号就弹出并拼接。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>括号嵌套符合后进先出的特点，最后遇到的左括号要最先被配对，所以自然想到栈。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>str.isdigit()</code> 判断字符是否是数字。</li><li>多位数字要用 <code>num = num * 10 + int(ch)</code> 累积。</li><li>栈可以保存进入新括号前的状态。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>遍历字符串中的每个字符。</li><li>遇到数字就累积重复次数。</li><li>遇到 <code>[</code>，把当前字符串和数字入栈，然后清空当前状态。</li><li>遇到 <code>]</code>，弹出上一层状态，把当前字符串重复后接回去。</li><li>遇到普通字母就追加到当前字符串。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def decodeString(self, s: str) -&gt; str:
+        stack = []
+        current = &quot;&quot;
+        num = 0
+
+        for ch in s:
+            if ch.isdigit():
+                num = num * 10 + int(ch)
+            elif ch == &quot;[&quot;:
+                stack.append((current, num))
+                current = &quot;&quot;
+                num = 0
+            elif ch == &quot;]&quot;:
+                prev, times = stack.pop()
+                current = prev + current * times
+            else:
+                current += ch
+
+        return current</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>current</code> 表示当前层已经解码出的字符串。</li><li><code>num</code> 表示当前括号前的重复次数。</li><li>入栈保存进入括号前的 <code>current</code> 和 <code>num</code>。</li><li>出栈时把当前层结果重复 <code>times</code> 次并接回上一层。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>3[a2[c]]</code> 先把 <code>2[c]</code> 解成 <code>cc</code>，再得到 <code>3[acc]</code>，结果是 <code>accaccacc</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n + ans)</code>，<code>ans</code> 是展开后字符串长度。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n + ans)</code>，栈和结果字符串占用空间。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不要只处理一位数字，<code>12[a]</code> 也合法。</li><li>遇到 <code>[</code> 后要把 <code>num</code> 清零。</li><li>嵌套括号要靠栈保存上一层状态。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入一个编码字符串，输出解码结果；注释中保留常用 <code>split / map</code> 写法。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取；split() / map() / print() 是 ACM 常用组合
+# nums = list(map(int, input().split()))
+s = input().strip()
+
+stack = []
+current = &quot;&quot;
+num = 0
+for ch in s:
+    if ch.isdigit():
+        num = num * 10 + int(ch)
+    elif ch == &quot;[&quot;:
+        stack.append((current, num))
+        current = &quot;&quot;
+        num = 0
+    elif ch == &quot;]&quot;:
+        prev, times = stack.pop()
+        current = prev + current * times
+    else:
+        current += ch
+
+print(current)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="020-valid-parentheses.html">20. Valid Parentheses</a> <a class="problem-chip" href="084-largest-rectangle-in-histogram.html">84. Largest Rectangle</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="105-construct-binary-tree-from-preorder-and-inorder-traversal.html">上一题<br><strong>105. Construct Binary Tree from Preorder and Inorder Traversal</strong></a><a class="next" href="084-largest-rectangle-in-histogram.html">下一题<br><strong>84. Largest Rectangle in Histogram</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

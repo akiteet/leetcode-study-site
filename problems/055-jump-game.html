@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>55. Jump Game - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="055-jump-game">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Greedy</p><h1>55. Jump Game</h1><p class="muted">判断能否从数组起点跳到最后一个位置。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">贪心</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每个位置的数字表示最多能跳多远，你可以少跳，但不能超过这个距离。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>维护当前能到达的最远位置，只要遍历过程中当前位置可达，就尝试更新最远距离。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>题目只问能不能到，不问怎么跳。只要知道当前最远能覆盖到哪里，就能判断后续位置是否有机会继续扩展。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>贪心常维护一个当前最优边界。</li><li><code>max_reach</code> 表示目前最远可达下标。</li><li>如果当前下标大于 <code>max_reach</code>，说明断开了。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化 <code>max_reach = 0</code>。</li><li>从左到右遍历每个下标。</li><li>如果 <code>i &gt; max_reach</code>，返回 <code>False</code>。</li><li>更新 <code>max_reach = max(max_reach, i + nums[i])</code>。</li><li>如果最远距离覆盖末尾，返回 <code>True</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def canJump(self, nums: list[int]) -&gt; bool:
+        max_reach = 0
+        for i, jump in enumerate(nums):
+            if i &gt; max_reach:
+                return False
+            max_reach = max(max_reach, i + jump)
+            if max_reach &gt;= len(nums) - 1:
+                return True
+        return True</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>i &gt; max_reach</code> 表示当前位置根本走不到。</li><li><code>i + jump</code> 是从当前位置能扩展到的最远点。</li><li>只要覆盖最后一个下标，就可以提前返回。</li><li>单元素数组天然可达。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[2,3,1,1,4]</code> 中，从 0 可跳到 1，再从 1 覆盖到最后。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>每个位置是最多跳，不是必须跳。</li><li>不要用回溯暴力枚举路径。</li><li>遇到 0 不一定失败，要看它之前是否能被跨过去。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入数组，输出是否可以到达最后一个位置。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() + split() + map() 读取数组，print() 输出布尔值
+nums = list(map(int, input().split()))
+
+max_reach = 0
+ok = True
+for i, jump in enumerate(nums):
+    if i &gt; max_reach:
+        ok = False
+        break
+    max_reach = max(max_reach, i + jump)
+
+print(ok)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="045-jump-game-ii.html">45. Jump Game II</a> <a class="problem-chip" href="121-best-time-to-buy-and-sell-stock.html">121. Best Time</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="295-find-median-from-data-stream.html">上一题<br><strong>295. Find Median from Data Stream</strong></a><a class="next" href="045-jump-game-ii.html">下一题<br><strong>45. Jump Game II</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>
