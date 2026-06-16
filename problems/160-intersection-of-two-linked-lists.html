@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>160. Intersection of Two Linked Lists - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="160-intersection-of-two-linked-lists">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>160. Intersection of Two Linked Lists</h1><p class="muted">判断两个链表是否在某个节点开始共用同一段尾巴。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">链表</span><span class="tag">双指针</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>相交不是值相等，而是两个链表走到了同一个节点对象。返回这个公共节点；不相交就返回 <code>None</code>。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>两个指针分别走 A+B 和 B+A，长度差会被自动抵消。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>如果两条链表长度不同，直接同步走会错位。让 A 走完后接 B，B 走完后接 A，两者总路程相同，若有交点会同时到达。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>链表节点比较要比较对象本身，不是比较 <code>val</code>。</li><li><code>None</code> 也可以作为循环结束和换路标记。</li><li>双指针可以用来消除长度差。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>令 <code>p = headA</code>，<code>q = headB</code>。</li><li>两个指针每次向后走一步。</li><li><code>p</code> 走到空后切到 <code>headB</code>，<code>q</code> 走到空后切到 <code>headA</code>。</li><li>当 <code>p == q</code> 时返回该节点，可能是交点，也可能都是 <code>None</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def getIntersectionNode(self, headA, headB):
+        p, q = headA, headB
+        while p != q:
+            p = p.next if p else headB
+            q = q.next if q else headA
+        return p</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>p</code> 先走链表 A，再走链表 B。</li><li><code>q</code> 先走链表 B，再走链表 A。</li><li>如果有公共尾部，两个指针会在交点相遇。</li><li>如果没有交点，最后会同时变成 <code>None</code>。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>A 比 B 长 2 个节点时，切换链表后短的那条会补齐这 2 步，最终对齐公共尾部。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(m+n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不要用节点值判断是否相交。</li><li>循环条件是 <code>p != q</code>，不是 <code>p.next != q.next</code>。</li><li>不相交时也能结束，因为最终都会到 <code>None</code>。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>ACM 中没有真实节点引用时，可以把节点编号当作身份，找两个编号序列第一个共同节点。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+
+seen = set(a)
+ans = -1
+for node_id in b:
+    if node_id in seen:
+        ans = node_id
+        break
+
+print(ans)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="206-reverse-linked-list.html">206. Reverse Linked List</a> <a class="problem-chip" href="141-linked-list-cycle.html">141. Linked List Cycle</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="240-search-a-2d-matrix-ii.html">上一题<br><strong>240. Search a 2D Matrix II</strong></a><a class="next" href="206-reverse-linked-list.html">下一题<br><strong>206. Reverse Linked List</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

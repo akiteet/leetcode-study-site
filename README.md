@@ -11,7 +11,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 首页学习路线
 - 题型分类入口
 - 题目搜索
-- 44 道入门题笔记
+- 68 道入门题笔记
 - 每题包含核心思路、解题过程、Python 代码、逐行解释、复杂度分析、易错点和 ACM 模式改写
 
 ## 已整理题目
@@ -60,6 +60,30 @@ https://akiteet.github.io/leetcode-study-site/
 - 70. Climbing Stairs
 - 198. House Robber
 - 53. Maximum Subarray
+- 73. Set Matrix Zeroes
+- 54. Spiral Matrix
+- 48. Rotate Image
+- 240. Search a 2D Matrix II
+- 160. Intersection of Two Linked Lists
+- 206. Reverse Linked List
+- 234. Palindrome Linked List
+- 141. Linked List Cycle
+- 142. Linked List Cycle II
+- 21. Merge Two Sorted Lists
+- 2. Add Two Numbers
+- 19. Remove Nth Node From End of List
+- 24. Swap Nodes in Pairs
+- 25. Reverse Nodes in k-Group
+- 138. Copy List with Random Pointer
+- 148. Sort List
+- 94. Binary Tree Inorder Traversal
+- 543. Diameter of Binary Tree
+- 108. Convert Sorted Array to Binary Search Tree
+- 98. Validate Binary Search Tree
+- 230. Kth Smallest Element in a BST
+- 199. Binary Tree Right Side View
+- 114. Flatten Binary Tree to Linked List
+- 105. Construct Binary Tree from Preorder and Inorder Traversal
 
 ## 本地打开
 

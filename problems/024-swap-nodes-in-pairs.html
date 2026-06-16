@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>24. Swap Nodes in Pairs - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="024-swap-nodes-in-pairs">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>24. Swap Nodes in Pairs</h1><p class="muted">每两个相邻节点交换一次，不能只交换节点值。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">链表</span><span class="tag">递归</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p><code>1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4</code> 变成 <code>2 -&amp;gt; 1 -&amp;gt; 4 -&amp;gt; 3</code>。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用虚拟头节点，每次拿出一组两个节点，重新连接三条边。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>链表交换节点本质是改 <code>next</code> 指向。虚拟头可以让第一组节点和后续组用同样逻辑处理。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>三指针 <code>prev、first、second</code> 可以描述一组交换。</li><li>交换前要保存 <code>second.next</code>。</li><li>链表题画图会明显降低出错率。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建 <code>dummy</code>，<code>prev</code> 指向交换组前一个节点。</li><li>当 <code>prev.next</code> 和 <code>prev.next.next</code> 都存在时处理一组。</li><li>记录 <code>first</code> 和 <code>second</code>。</li><li>把 <code>first.next</code> 指向下一组开头。</li><li>把 <code>second.next</code> 指向 <code>first</code>，再把 <code>prev.next</code> 指向 <code>second</code>。</li><li>移动 <code>prev = first</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def swapPairs(self, head):
+        dummy = ListNode(0, head)
+        prev = dummy
+
+        while prev.next and prev.next.next:
+            first = prev.next
+            second = first.next
+
+            first.next = second.next
+            second.next = first
+            prev.next = second
+
+            prev = first
+
+        return dummy.next</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>first</code> 是一组中的第一个节点。</li><li><code>second</code> 是一组中的第二个节点。</li><li>三次指针修改完成交换。</li><li>交换后 <code>first</code> 变成这一组尾部，所以下一轮 <code>prev = first</code>。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>1,2</code> 交换后 <code>2</code> 指向 <code>1</code>；接着处理 <code>3,4</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>题目要求交换节点，不是交换值。</li><li>奇数长度时最后一个节点保持不变。</li><li>三条边修改顺序不要写乱。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>数组输入时可以每两个元素交换一次来模拟输出。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+nums = list(map(int, input().split()))
+
+for i in range(0, len(nums) - 1, 2):
+    nums[i], nums[i + 1] = nums[i + 1], nums[i]
+
+print(*nums)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="025-reverse-nodes-in-k-group.html">25. Reverse Nodes in k-Group</a> <a class="problem-chip" href="206-reverse-linked-list.html">206. Reverse Linked List</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="019-remove-nth-node-from-end-of-list.html">上一题<br><strong>19. Remove Nth Node From End of List</strong></a><a class="next" href="025-reverse-nodes-in-k-group.html">下一题<br><strong>25. Reverse Nodes in k-Group</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>25. Reverse Nodes in k-Group - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="025-reverse-nodes-in-k-group">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>25. Reverse Nodes in k-Group</h1><p class="muted">每 k 个节点为一组翻转，不足 k 个的尾部保持原样。</p></div><div class="tags"><span class="tag hard">Hard</span><span class="tag">链表</span><span class="tag">分组反转</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p><code>1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4 -&amp;gt; 5</code>，当 <code>k = 2</code> 时变成 <code>2 -&amp;gt; 1 -&amp;gt; 4 -&amp;gt; 3 -&amp;gt; 5</code>。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>先确认这一组够 k 个节点，再把这段链表局部反转并接回原链表。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>不足 k 个不能翻转，所以每轮必须先找组尾。找到一组后，反转逻辑可以复用 206 题。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>虚拟头节点方便处理第一组。</li><li><code>group_prev</code> 表示当前组前一个节点。</li><li>局部反转后要重新接上前后两端。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>用 <code>dummy</code> 指向头节点。</li><li>每轮从 <code>group_prev</code> 往后找第 k 个节点。</li><li>如果找不到，返回结果。</li><li>保存下一组开头 <code>group_next</code>。</li><li>把当前组反转到 <code>group_next</code> 前。</li><li>接回链表并移动 <code>group_prev</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def reverseKGroup(self, head, k):
+        dummy = ListNode(0, head)
+        group_prev = dummy
+
+        while True:
+            kth = group_prev
+            for _ in range(k):
+                kth = kth.next
+                if not kth:
+                    return dummy.next
+
+            group_next = kth.next
+            prev, cur = group_next, group_prev.next
+            while cur != group_next:
+                nxt = cur.next
+                cur.next = prev
+                prev = cur
+                cur = nxt
+
+            old_head = group_prev.next
+            group_prev.next = kth
+            group_prev = old_head</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>kth</code> 用来确认当前组够不够 k 个。</li><li><code>group_next</code> 是下一组开头，也是反转后的尾部连接点。</li><li>局部反转时 <code>prev</code> 初始为 <code>group_next</code>。</li><li><code>old_head</code> 反转后变成这一组尾部。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[1,2,3,4,5]</code>，<code>k=3</code> 时先翻转 <code>[1,2,3]</code>，尾部 <code>[4,5]</code> 不足 3 个保持不变。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不足 k 个不能翻转。</li><li>反转后组头组尾会互换。</li><li>局部反转边界是 <code>group_next</code>，不是 <code>None</code>。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>数组输入时可以每 k 个元素一组反转，不足 k 个保留。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+nums = list(map(int, input().split()))
+k = int(input())
+
+for start in range(0, len(nums), k):
+    if start + k &lt;= len(nums):
+        nums[start:start + k] = reversed(nums[start:start + k])
+
+print(*nums)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="024-swap-nodes-in-pairs.html">24. Swap Nodes in Pairs</a> <a class="problem-chip" href="148-sort-list.html">148. Sort List</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="024-swap-nodes-in-pairs.html">上一题<br><strong>24. Swap Nodes in Pairs</strong></a><a class="next" href="138-copy-list-with-random-pointer.html">下一题<br><strong>138. Copy List with Random Pointer</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

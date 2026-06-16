@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>142. Linked List Cycle II - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="142-linked-list-cycle-ii">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>142. Linked List Cycle II</h1><p class="muted">如果链表有环，返回环的入口节点。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">链表</span><span class="tag">快慢指针</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>141 题只问有没有环，本题还要找到从哪里开始进入环。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>快慢指针先在环内相遇，再让一个指针回到头部，两者同步走，下一次相遇就是入口。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>快慢指针相遇后，根据路程关系，头节点到入口的距离等于相遇点继续走到入口的距离。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>先用 141 题模板判断是否相遇。</li><li>第二阶段两个指针都每次走一步。</li><li>这题的重点是入口，不只是判断有环。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>快慢指针找相遇点。</li><li>如果快指针走到空，说明没有环，返回 <code>None</code>。</li><li>令一个指针从头开始，另一个留在相遇点。</li><li>两个指针同步走，相遇处就是入口。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def detectCycle(self, head):
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                p = head
+                while p != slow:
+                    p = p.next
+                    slow = slow.next
+                return p
+        return None</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>第一段循环找环内相遇点。</li><li><code>p = head</code> 后开始第二阶段。</li><li><code>p</code> 和 <code>slow</code> 都每次走一步。</li><li>二者相遇时返回入口节点。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>3 -&amp;gt; 2 -&amp;gt; 0 -&amp;gt; -4</code> 且尾部连回 <code>2</code>，最终返回值为 2 的节点。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>第二阶段不要让快指针继续走两步。</li><li>没有环时要返回 <code>None</code>。</li><li>不要返回第一次相遇点，它不一定是入口。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>如果输入给出 <code>pos</code>，可以直接输出入口位置和值；真实链表版本仍建议使用快慢指针。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+nums = list(map(int, input().split()))
+pos = int(input())
+
+if pos == -1:
+    print(&quot;None&quot;)
+else:
+    print(nums[pos])</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="141-linked-list-cycle.html">141. Linked List Cycle</a> <a class="problem-chip" href="019-remove-nth-node-from-end-of-list.html">19. Remove Nth Node</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="141-linked-list-cycle.html">上一题<br><strong>141. Linked List Cycle</strong></a><a class="next" href="021-merge-two-sorted-lists.html">下一题<br><strong>21. Merge Two Sorted Lists</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

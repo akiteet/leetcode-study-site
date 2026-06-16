@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2. Add Two Numbers - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="002-add-two-numbers">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>2. Add Two Numbers</h1><p class="muted">两个链表按逆序存储数字，求和后也按逆序链表返回。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">链表</span><span class="tag">模拟</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p><code>2 -&amp;gt; 4 -&amp;gt; 3</code> 表示 342，<code>5 -&amp;gt; 6 -&amp;gt; 4</code> 表示 465，结果是 807，即 <code>7 -&amp;gt; 0 -&amp;gt; 8</code>。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>像小学竖式加法一样，从低位开始逐位相加，并维护进位。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>链表本身就是从个位到高位排列，正好适合从低位开始计算，不需要先反转。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>divmod(total, 10)</code> 可以同时得到进位和当前位。</li><li>两个链表长度可能不同。</li><li>最后如果还有进位，要新建一个节点。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建虚拟头和 <code>carry = 0</code>。</li><li>当任一链表未结束或还有进位时继续循环。</li><li>取两个当前位，没有节点就当 0。</li><li>计算总和、当前位和新进位。</li><li>追加新节点并移动指针。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def addTwoNumbers(self, l1, l2):
+        dummy = ListNode(0)
+        tail = dummy
+        carry = 0
+
+        while l1 or l2 or carry:
+            x = l1.val if l1 else 0
+            y = l2.val if l2 else 0
+            carry, digit = divmod(x + y + carry, 10)
+            tail.next = ListNode(digit)
+            tail = tail.next
+
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+
+        return dummy.next</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>x</code> 和 <code>y</code> 是当前位数字。</li><li><code>carry</code> 保存进位。</li><li><code>digit</code> 是当前节点要放的数字。</li><li><code>while l1 or l2 or carry</code> 能处理最后一位进位。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[2,4,3] + [5,6,4]</code>：个位 2+5=7，十位 4+6=10 写 0 进 1，百位 3+4+1=8。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(max(m,n))</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(max(m,n))</code>，结果链表长度。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不要忘记最后的 <code>carry</code>。</li><li>链表是逆序存储，不要按正常数字方向处理。</li><li>两个链表长度不同，空位要当作 0。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>ACM 中可用两行数组表示逆序数字，输出逆序结果。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+
+i = j = carry = 0
+ans = []
+while i &lt; len(a) or j &lt; len(b) or carry:
+    x = a[i] if i &lt; len(a) else 0
+    y = b[j] if j &lt; len(b) else 0
+    carry, digit = divmod(x + y + carry, 10)
+    ans.append(digit)
+    i += 1
+    j += 1
+
+print(*ans)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="021-merge-two-sorted-lists.html">21. Merge Two Sorted Lists</a> <a class="problem-chip" href="019-remove-nth-node-from-end-of-list.html">19. Remove Nth Node</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="021-merge-two-sorted-lists.html">上一题<br><strong>21. Merge Two Sorted Lists</strong></a><a class="next" href="019-remove-nth-node-from-end-of-list.html">下一题<br><strong>19. Remove Nth Node From End of List</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

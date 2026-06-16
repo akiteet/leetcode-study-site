@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>48. Rotate Image - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="048-rotate-image">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Matrix</p><h1>48. Rotate Image</h1><p class="muted">把 n x n 矩阵顺时针旋转 90 度，要求原地修改。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">矩阵</span><span class="tag">原地修改</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>题目不是让你返回新矩阵，而是直接把原矩阵变成旋转后的样子。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>先沿主对角线转置，再把每一行反转。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>顺时针旋转 90 度可以拆成两个简单操作：转置让行列交换，行反转把列顺序调整到正确方向。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>交换两个元素可写成 <code>a, b = b, a</code>。</li><li><code>row.reverse()</code> 会原地反转列表。</li><li>只遍历对角线上方即可完成转置，避免交换两次。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>设 <code>n = len(matrix)</code>。</li><li>遍历 <code>i &lt; j</code> 的位置，交换 <code>matrix[i][j]</code> 和 <code>matrix[j][i]</code>。</li><li>对每一行执行 <code>reverse()</code>。</li><li>矩阵就完成了顺时针旋转。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def rotate(self, matrix):
+        n = len(matrix)
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        for row in matrix:
+            row.reverse()</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>第一层循环选择行。</li><li><code>j</code> 从 <code>i + 1</code> 开始，表示只处理主对角线上方。</li><li>转置后，原来的列变成行。</li><li>每行反转后，方向变成顺时针 90 度。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[[1,2,3],[4,5,6],[7,8,9]]</code> 旋转后是 <code>[[7,4,1],[8,5,2],[9,6,3]]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n^2)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>，原地交换。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不要新建矩阵返回。</li><li>转置时不要遍历全部位置，否则会换回来。</li><li>顺时针是转置后反转每一行，逆时针不是这个顺序。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入方阵后，原地旋转并逐行输出。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+n = int(input())
+matrix = [list(map(int, input().split())) for _ in range(n)]
+
+for i in range(n):
+    for j in range(i + 1, n):
+        matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+for row in matrix:
+    row.reverse()
+
+for row in matrix:
+    print(*row)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="054-spiral-matrix.html">54. Spiral Matrix</a> <a class="problem-chip" href="240-search-a-2d-matrix-ii.html">240. Search a 2D Matrix II</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="054-spiral-matrix.html">上一题<br><strong>54. Spiral Matrix</strong></a><a class="next" href="240-search-a-2d-matrix-ii.html">下一题<br><strong>240. Search a 2D Matrix II</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

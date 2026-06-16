@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>21. Merge Two Sorted Lists - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="021-merge-two-sorted-lists">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>21. Merge Two Sorted Lists</h1><p class="muted">把两个升序链表合并成一个新的升序链表。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">链表</span><span class="tag">递归</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每次从两个链表当前头节点里选择较小的一个接到结果后面。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用虚拟头节点简化头部处理，尾指针不断接较小节点。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>如果没有虚拟头节点，第一次接节点时需要单独判断结果链表是否为空。虚拟头让所有节点都按同一种方式追加。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>dummy</code> 是链表题常用辅助节点。</li><li><code>tail</code> 指向结果链表最后一个节点。</li><li>有一个链表为空后，剩余部分可以整体接上。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建 <code>dummy</code> 和 <code>tail</code>。</li><li>当两个链表都非空时，比较当前节点值。</li><li>把较小节点接到 <code>tail.next</code>。</li><li>移动被选中的链表指针和 <code>tail</code>。</li><li>最后接上剩余链表，返回 <code>dummy.next</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def mergeTwoLists(self, list1, list2):
+        dummy = ListNode(0)
+        tail = dummy
+
+        while list1 and list2:
+            if list1.val &lt;= list2.val:
+                tail.next = list1
+                list1 = list1.next
+            else:
+                tail.next = list2
+                list2 = list2.next
+            tail = tail.next
+
+        tail.next = list1 if list1 else list2
+        return dummy.next</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>dummy.next</code> 才是真正结果头。</li><li><code>tail</code> 每次接上一个较小节点。</li><li>比较使用 <code>&lt;=</code> 可以保持相对稳定。</li><li>循环结束后，非空链表剩下部分已经有序，直接接上。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>1-&amp;gt;2-&amp;gt;4</code> 和 <code>1-&amp;gt;3-&amp;gt;4</code> 合并成 <code>1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;4</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(m+n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>，只调整指针。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>返回 <code>dummy.next</code>，不要返回 <code>dummy</code>。</li><li>移动 <code>tail</code> 后不要忘记移动原链表指针。</li><li>最后要接剩余链表。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>数组输入时可以用双指针合并两个有序序列。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+
+i = j = 0
+ans = []
+while i &lt; len(a) and j &lt; len(b):
+    if a[i] &lt;= b[j]:
+        ans.append(a[i])
+        i += 1
+    else:
+        ans.append(b[j])
+        j += 1
+ans.extend(a[i:])
+ans.extend(b[j:])
+print(*ans)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="002-add-two-numbers.html">2. Add Two Numbers</a> <a class="problem-chip" href="148-sort-list.html">148. Sort List</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="142-linked-list-cycle-ii.html">上一题<br><strong>142. Linked List Cycle II</strong></a><a class="next" href="002-add-two-numbers.html">下一题<br><strong>2. Add Two Numbers</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>543. Diameter of Binary Tree - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="543-diameter-of-binary-tree">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Binary Tree</p><h1>543. Diameter of Binary Tree</h1><p class="muted">求二叉树中任意两个节点之间最长路径的边数。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">二叉树</span><span class="tag">DFS</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>最长路径不一定经过根节点，可能完全在某个子树里。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>DFS 求每个节点左右子树高度，同时用 <code>left + right</code> 更新答案。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>一条经过某节点的最长路径，就是左子树最大深度加右子树最大深度。遍历每个节点时顺手计算即可。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>树的高度可以递归计算。</li><li><code>nonlocal</code> 可以在内层函数修改外层变量。</li><li>直径按边数计算，左右高度相加正好是边数。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化 <code>ans = 0</code>。</li><li>定义 <code>depth(node)</code> 返回节点高度。</li><li>递归求左右高度。</li><li>用 <code>left + right</code> 更新直径。</li><li>返回 <code>max(left, right) + 1</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def diameterOfBinaryTree(self, root):
+        ans = 0
+
+        def depth(node):
+            nonlocal ans
+            if not node:
+                return 0
+            left = depth(node.left)
+            right = depth(node.right)
+            ans = max(ans, left + right)
+            return max(left, right) + 1
+
+        depth(root)
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>depth</code> 返回节点向下的最大节点数。</li><li><code>left + right</code> 是经过当前节点的最长边数。</li><li><code>ans</code> 记录全局最大直径。</li><li>返回高度给父节点继续使用。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[1,2,3,4,5]</code> 中最长路径可以是 <code>4-2-1-3</code>，长度为 3 条边。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(h)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>直径不一定经过根节点。</li><li>答案是边数，不是节点数。</li><li>更新答案的位置在拿到左右高度之后。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>层序输入建树后，递归计算直径并输出。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+vals = input().split()
+# 常用整数行：nums = list(map(int, input().split()))
+
+def depth(i):
+    global ans
+    if i &gt;= len(vals) or vals[i] == &quot;null&quot;:
+        return 0
+    left = depth(2 * i + 1)
+    right = depth(2 * i + 2)
+    ans = max(ans, left + right)
+    return max(left, right) + 1
+
+ans = 0
+depth(0)
+print(ans)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="104-maximum-depth-of-binary-tree.html">104. Maximum Depth</a> <a class="problem-chip" href="112-path-sum.html">112. Path Sum</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="094-binary-tree-inorder-traversal.html">上一题<br><strong>94. Binary Tree Inorder Traversal</strong></a><a class="next" href="108-convert-sorted-array-to-binary-search-tree.html">下一题<br><strong>108. Convert Sorted Array to Binary Search Tree</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

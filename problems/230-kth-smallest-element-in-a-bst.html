@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>230. Kth Smallest Element in a BST - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="230-kth-smallest-element-in-a-bst">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Binary Tree</p><h1>230. Kth Smallest Element in a BST</h1><p class="muted">在二叉搜索树中找到第 k 小的值。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">二叉树</span><span class="tag">二叉搜索树</span><span class="tag">中序遍历</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>BST 的中序遍历是升序，所以第 k 个访问到的节点就是第 k 小。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>中序遍历 BST，数到第 k 个时返回。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>二叉搜索树的左根右顺序天然从小到大，不需要额外排序。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>BST 中序遍历结果有序。</li><li>迭代写法可以用栈模拟递归。</li><li>计数从 1 到 k。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>用栈一路把左孩子入栈。</li><li>弹出栈顶表示访问当前最小未访问节点。</li><li><code>k -= 1</code>。</li><li>当 <code>k == 0</code> 时返回当前值。</li><li>转向当前节点右子树。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def kthSmallest(self, root, k):
+        stack = []
+        cur = root
+
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+
+            cur = stack.pop()
+            k -= 1
+            if k == 0:
+                return cur.val
+            cur = cur.right</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>内层循环不断走到最左边。</li><li><code>stack.pop()</code> 得到当前最小的未访问节点。</li><li>每访问一个节点就让 <code>k</code> 减一。</li><li>访问根后转向右子树。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>BST <code>[3,1,4,null,2]</code> 的中序是 <code>[1,2,3,4]</code>，第 1 小是 1。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p>平均 <code>O(h+k)</code>，最坏 <code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(h)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不要对所有节点排序，BST 已经提供顺序。</li><li>第 k 小不是下标 k，而是第 k 个，计数要减到 0。</li><li>中序顺序必须是左根右。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>ACM 可先输入 BST 的层序数组，再输入 k，输出第 k 小。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+vals = input().split()
+k = int(input())
+# 常用整数行：nums = list(map(int, input().split()))
+
+def inorder(i):
+    if i &gt;= len(vals) or vals[i] == &quot;null&quot;:
+        return []
+    return inorder(2 * i + 1) + [int(vals[i])] + inorder(2 * i + 2)
+
+arr = inorder(0)
+print(arr[k - 1])</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="098-validate-binary-search-tree.html">98. Validate BST</a> <a class="problem-chip" href="094-binary-tree-inorder-traversal.html">94. Inorder Traversal</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="098-validate-binary-search-tree.html">上一题<br><strong>98. Validate Binary Search Tree</strong></a><a class="next" href="199-binary-tree-right-side-view.html">下一题<br><strong>199. Binary Tree Right Side View</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

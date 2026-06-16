@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>148. Sort List - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="148-sort-list">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>148. Sort List</h1><p class="muted">在 <code>O(n log n)</code> 时间内排序链表。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">链表</span><span class="tag">归并排序</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>链表不能像数组一样高效随机访问，所以更适合归并排序，而不是快速排序或堆排序。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>快慢指针切成两半，递归排序两半，再合并两个有序链表。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>归并排序只需要顺序扫描和改指针，天然适合链表；切分用快慢指针可以找到中点。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>快慢指针找中点。</li><li>递归排序左右两段。</li><li>合并阶段和 21 题相同。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>如果链表为空或只有一个节点，直接返回。</li><li>用快慢指针找到中点前一个节点。</li><li>断开链表，得到左右两段。</li><li>分别递归排序左右段。</li><li>合并两个有序链表。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def sortList(self, head):
+        if not head or not head.next:
+            return head
+
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        mid = slow.next
+        slow.next = None
+
+        left = self.sortList(head)
+        right = self.sortList(mid)
+        return self.merge(left, right)
+
+    def merge(self, a, b):
+        dummy = ListNode(0)
+        tail = dummy
+        while a and b:
+            if a.val &lt;= b.val:
+                tail.next = a
+                a = a.next
+            else:
+                tail.next = b
+                b = b.next
+            tail = tail.next
+        tail.next = a if a else b
+        return dummy.next</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li>递归出口是空链表或单节点。</li><li><code>slow.next = None</code> 把链表切成两段。</li><li><code>merge</code> 复用合并两个有序链表模板。</li><li>每层递归做线性合并。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>4 -&amp;gt; 2 -&amp;gt; 1 -&amp;gt; 3</code> 切成两半排序，再合并成 <code>1 -&amp;gt; 2 -&amp;gt; 3 -&amp;gt; 4</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n log n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(log n)</code>，递归栈空间。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>必须断开左右两段，否则递归不会收敛。</li><li>找中点时 <code>fast</code> 从 <code>head.next</code> 开始更容易切成均衡两段。</li><li>合并时不要新建过多节点，直接改指针即可。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>数组输入时可以直接排序输出；链表版面试要掌握归并思路。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+nums = list(map(int, input().split()))
+nums.sort()
+print(*nums)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="021-merge-two-sorted-lists.html">21. Merge Two Sorted Lists</a> <a class="problem-chip" href="025-reverse-nodes-in-k-group.html">25. Reverse Nodes in k-Group</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="138-copy-list-with-random-pointer.html">上一题<br><strong>138. Copy List with Random Pointer</strong></a><a class="next" href="094-binary-tree-inorder-traversal.html">下一题<br><strong>94. Binary Tree Inorder Traversal</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

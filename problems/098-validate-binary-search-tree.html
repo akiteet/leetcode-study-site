@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>98. Validate Binary Search Tree - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="098-validate-binary-search-tree">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Binary Tree</p><h1>98. Validate Binary Search Tree</h1><p class="muted">判断一棵树是否满足二叉搜索树规则。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">二叉树</span><span class="tag">二叉搜索树</span><span class="tag">DFS</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>每个节点不仅要大于左孩子、小于右孩子，还要满足整个左子树都小于它，整个右子树都大于它。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>递归时传入当前节点允许的取值范围。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>只比较父子节点不够，因为右子树里的某个深层节点也可能小于根。上下界能把祖先限制一起传下来。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>BST 的限制来自所有祖先节点。</li><li>可以用 <code>float(&#x27;-inf&#x27;)</code> 和 <code>float(&#x27;inf&#x27;)</code> 表示初始边界。</li><li>递归返回布尔值。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>定义 <code>dfs(node, low, high)</code>。</li><li>空节点返回 <code>True</code>。</li><li>如果节点值不在 <code>(low, high)</code> 内，返回 <code>False</code>。</li><li>左子树上界变为当前值。</li><li>右子树下界变为当前值。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def isValidBST(self, root):
+        def dfs(node, low, high):
+            if not node:
+                return True
+            if not (low &lt; node.val &lt; high):
+                return False
+            return dfs(node.left, low, node.val) and dfs(node.right, node.val, high)
+
+        return dfs(root, float(&quot;-inf&quot;), float(&quot;inf&quot;))</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>low</code> 是当前节点必须大于的下界。</li><li><code>high</code> 是当前节点必须小于的上界。</li><li>左子树不能大于等于当前节点。</li><li>右子树不能小于等于当前节点。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[5,1,4,null,null,3,6]</code> 不是 BST，因为 3 在 5 的右子树里却小于 5。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(h)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>不能只比较直接左右孩子。</li><li>BST 通常不允许重复值，所以是严格小于和严格大于。</li><li>边界要随递归更新。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>层序数组输入时，可用下标递归模拟树并验证上下界。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+vals = input().split()
+# 常用整数行：nums = list(map(int, input().split()))
+
+def dfs(i, low, high):
+    if i &gt;= len(vals) or vals[i] == &quot;null&quot;:
+        return True
+    val = int(vals[i])
+    if not (low &lt; val &lt; high):
+        return False
+    return dfs(2 * i + 1, low, val) and dfs(2 * i + 2, val, high)
+
+print(dfs(0, float(&quot;-inf&quot;), float(&quot;inf&quot;)))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="108-convert-sorted-array-to-binary-search-tree.html">108. Sorted Array to BST</a> <a class="problem-chip" href="230-kth-smallest-element-in-a-bst.html">230. Kth Smallest</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="108-convert-sorted-array-to-binary-search-tree.html">上一题<br><strong>108. Convert Sorted Array to Binary Search Tree</strong></a><a class="next" href="230-kth-smallest-element-in-a-bst.html">下一题<br><strong>230. Kth Smallest Element in a BST</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

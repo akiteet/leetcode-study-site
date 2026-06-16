@@ -394,6 +394,222 @@ const problems = [
     difficulty: "Medium",
     tags: ["动态规划入门", "数组"],
     href: "problems/053-maximum-subarray.html"
+  },
+  {
+    slug: "073-set-matrix-zeroes",
+    number: "73",
+    title: "Set Matrix Zeroes",
+    cnTitle: "矩阵置零",
+    difficulty: "Medium",
+    tags: ["矩阵", "数组"],
+    href: "problems/073-set-matrix-zeroes.html"
+  },
+  {
+    slug: "054-spiral-matrix",
+    number: "54",
+    title: "Spiral Matrix",
+    cnTitle: "螺旋矩阵",
+    difficulty: "Medium",
+    tags: ["矩阵", "模拟"],
+    href: "problems/054-spiral-matrix.html"
+  },
+  {
+    slug: "048-rotate-image",
+    number: "48",
+    title: "Rotate Image",
+    cnTitle: "旋转图像",
+    difficulty: "Medium",
+    tags: ["矩阵", "数组"],
+    href: "problems/048-rotate-image.html"
+  },
+  {
+    slug: "240-search-a-2d-matrix-ii",
+    number: "240",
+    title: "Search a 2D Matrix II",
+    cnTitle: "搜索二维矩阵 II",
+    difficulty: "Medium",
+    tags: ["矩阵", "二分思想"],
+    href: "problems/240-search-a-2d-matrix-ii.html"
+  },
+  {
+    slug: "160-intersection-of-two-linked-lists",
+    number: "160",
+    title: "Intersection of Two Linked Lists",
+    cnTitle: "相交链表",
+    difficulty: "Easy",
+    tags: ["链表", "双指针"],
+    href: "problems/160-intersection-of-two-linked-lists.html"
+  },
+  {
+    slug: "206-reverse-linked-list",
+    number: "206",
+    title: "Reverse Linked List",
+    cnTitle: "反转链表",
+    difficulty: "Easy",
+    tags: ["链表", "双指针"],
+    href: "problems/206-reverse-linked-list.html"
+  },
+  {
+    slug: "234-palindrome-linked-list",
+    number: "234",
+    title: "Palindrome Linked List",
+    cnTitle: "回文链表",
+    difficulty: "Easy",
+    tags: ["链表", "双指针"],
+    href: "problems/234-palindrome-linked-list.html"
+  },
+  {
+    slug: "141-linked-list-cycle",
+    number: "141",
+    title: "Linked List Cycle",
+    cnTitle: "环形链表",
+    difficulty: "Easy",
+    tags: ["链表", "快慢指针"],
+    href: "problems/141-linked-list-cycle.html"
+  },
+  {
+    slug: "142-linked-list-cycle-ii",
+    number: "142",
+    title: "Linked List Cycle II",
+    cnTitle: "环形链表 II",
+    difficulty: "Medium",
+    tags: ["链表", "快慢指针"],
+    href: "problems/142-linked-list-cycle-ii.html"
+  },
+  {
+    slug: "021-merge-two-sorted-lists",
+    number: "21",
+    title: "Merge Two Sorted Lists",
+    cnTitle: "合并两个有序链表",
+    difficulty: "Easy",
+    tags: ["链表", "递归"],
+    href: "problems/021-merge-two-sorted-lists.html"
+  },
+  {
+    slug: "002-add-two-numbers",
+    number: "2",
+    title: "Add Two Numbers",
+    cnTitle: "两数相加",
+    difficulty: "Medium",
+    tags: ["链表", "模拟"],
+    href: "problems/002-add-two-numbers.html"
+  },
+  {
+    slug: "019-remove-nth-node-from-end-of-list",
+    number: "19",
+    title: "Remove Nth Node From End of List",
+    cnTitle: "删除链表的倒数第 N 个结点",
+    difficulty: "Medium",
+    tags: ["链表", "双指针"],
+    href: "problems/019-remove-nth-node-from-end-of-list.html"
+  },
+  {
+    slug: "024-swap-nodes-in-pairs",
+    number: "24",
+    title: "Swap Nodes in Pairs",
+    cnTitle: "两两交换链表中的节点",
+    difficulty: "Medium",
+    tags: ["链表", "递归"],
+    href: "problems/024-swap-nodes-in-pairs.html"
+  },
+  {
+    slug: "025-reverse-nodes-in-k-group",
+    number: "25",
+    title: "Reverse Nodes in k-Group",
+    cnTitle: "K 个一组翻转链表",
+    difficulty: "Hard",
+    tags: ["链表", "递归"],
+    href: "problems/025-reverse-nodes-in-k-group.html"
+  },
+  {
+    slug: "138-copy-list-with-random-pointer",
+    number: "138",
+    title: "Copy List with Random Pointer",
+    cnTitle: "随机链表的复制",
+    difficulty: "Medium",
+    tags: ["链表", "哈希表"],
+    href: "problems/138-copy-list-with-random-pointer.html"
+  },
+  {
+    slug: "148-sort-list",
+    number: "148",
+    title: "Sort List",
+    cnTitle: "排序链表",
+    difficulty: "Medium",
+    tags: ["链表", "归并排序"],
+    href: "problems/148-sort-list.html"
+  },
+  {
+    slug: "094-binary-tree-inorder-traversal",
+    number: "94",
+    title: "Binary Tree Inorder Traversal",
+    cnTitle: "二叉树的中序遍历",
+    difficulty: "Easy",
+    tags: ["二叉树", "DFS", "栈"],
+    href: "problems/094-binary-tree-inorder-traversal.html"
+  },
+  {
+    slug: "543-diameter-of-binary-tree",
+    number: "543",
+    title: "Diameter of Binary Tree",
+    cnTitle: "二叉树的直径",
+    difficulty: "Easy",
+    tags: ["二叉树", "DFS"],
+    href: "problems/543-diameter-of-binary-tree.html"
+  },
+  {
+    slug: "108-convert-sorted-array-to-binary-search-tree",
+    number: "108",
+    title: "Convert Sorted Array to Binary Search Tree",
+    cnTitle: "将有序数组转换为二叉搜索树",
+    difficulty: "Easy",
+    tags: ["二叉树", "二叉搜索树", "递归"],
+    href: "problems/108-convert-sorted-array-to-binary-search-tree.html"
+  },
+  {
+    slug: "098-validate-binary-search-tree",
+    number: "98",
+    title: "Validate Binary Search Tree",
+    cnTitle: "验证二叉搜索树",
+    difficulty: "Medium",
+    tags: ["二叉树", "二叉搜索树", "DFS"],
+    href: "problems/098-validate-binary-search-tree.html"
+  },
+  {
+    slug: "230-kth-smallest-element-in-a-bst",
+    number: "230",
+    title: "Kth Smallest Element in a BST",
+    cnTitle: "二叉搜索树中第 K 小的元素",
+    difficulty: "Medium",
+    tags: ["二叉树", "二叉搜索树", "中序遍历"],
+    href: "problems/230-kth-smallest-element-in-a-bst.html"
+  },
+  {
+    slug: "199-binary-tree-right-side-view",
+    number: "199",
+    title: "Binary Tree Right Side View",
+    cnTitle: "二叉树的右视图",
+    difficulty: "Medium",
+    tags: ["二叉树", "BFS", "DFS"],
+    href: "problems/199-binary-tree-right-side-view.html"
+  },
+  {
+    slug: "114-flatten-binary-tree-to-linked-list",
+    number: "114",
+    title: "Flatten Binary Tree to Linked List",
+    cnTitle: "二叉树展开为链表",
+    difficulty: "Medium",
+    tags: ["二叉树", "DFS", "链表"],
+    href: "problems/114-flatten-binary-tree-to-linked-list.html"
+  },
+  {
+    slug: "105-construct-binary-tree-from-preorder-and-inorder-traversal",
+    number: "105",
+    title: "Construct Binary Tree from Preorder and Inorder Traversal",
+    cnTitle: "从前序与中序遍历序列构造二叉树",
+    difficulty: "Medium",
+    tags: ["二叉树", "递归", "哈希表"],
+    href: "problems/105-construct-binary-tree-from-preorder-and-inorder-traversal.html"
   }
 ];
 

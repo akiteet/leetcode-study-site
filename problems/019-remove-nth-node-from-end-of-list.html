@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>19. Remove Nth Node From End of List - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="019-remove-nth-node-from-end-of-list">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>19. Remove Nth Node From End of List</h1><p class="muted">删除链表倒数第 n 个节点。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">链表</span><span class="tag">双指针</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>倒数第 n 个不好直接定位，可以让两个指针先拉开 n 步距离，再一起走。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>快指针先走 n 步，随后快慢指针同步移动，慢指针会停在待删节点前面。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>当快指针到达链表末尾时，慢指针和快指针之间仍相差 n 步，因此慢指针正好在删除位置前。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>删除头节点时需要虚拟头节点。</li><li>快慢指针可以定位倒数位置。</li><li>删除节点就是 <code>prev.next = prev.next.next</code>。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>创建 <code>dummy</code> 指向 <code>head</code>。</li><li>让 <code>fast</code> 从 <code>dummy</code> 先走 <code>n</code> 步。</li><li>让 <code>fast</code> 和 <code>slow</code> 一起走，直到 <code>fast.next</code> 为空。</li><li>此时 <code>slow.next</code> 是要删除的节点。</li><li>跳过该节点并返回 <code>dummy.next</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def removeNthFromEnd(self, head, n):
+        dummy = ListNode(0, head)
+        slow = fast = dummy
+
+        for _ in range(n):
+            fast = fast.next
+
+        while fast.next:
+            slow = slow.next
+            fast = fast.next
+
+        slow.next = slow.next.next
+        return dummy.next</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>dummy</code> 让删除头节点也统一处理。</li><li>先让 <code>fast</code> 领先 <code>n</code> 步。</li><li><code>while fast.next</code> 结束时，<code>slow</code> 在待删节点前面。</li><li><code>slow.next = slow.next.next</code> 完成删除。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[1,2,3,4,5]</code> 删除倒数第 2 个，结果是 <code>[1,2,3,5]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>删除头节点必须考虑。</li><li>快指针从 <code>dummy</code> 开始，循环条件才容易统一。</li><li>不要把 <code>slow</code> 停在待删节点本身，否则不好删除。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>数组形式输入时，删除下标 <code>len(nums) - n</code> 的元素即可。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+nums = list(map(int, input().split()))
+n = int(input())
+
+idx = len(nums) - n
+nums.pop(idx)
+print(*nums)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="024-swap-nodes-in-pairs.html">24. Swap Nodes in Pairs</a> <a class="problem-chip" href="142-linked-list-cycle-ii.html">142. Linked List Cycle II</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="002-add-two-numbers.html">上一题<br><strong>2. Add Two Numbers</strong></a><a class="next" href="024-swap-nodes-in-pairs.html">下一题<br><strong>24. Swap Nodes in Pairs</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

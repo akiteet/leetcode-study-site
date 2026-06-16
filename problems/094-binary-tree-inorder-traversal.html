@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>94. Binary Tree Inorder Traversal - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="094-binary-tree-inorder-traversal">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Binary Tree</p><h1>94. Binary Tree Inorder Traversal</h1><p class="muted">按左子树、根节点、右子树的顺序遍历二叉树。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">二叉树</span><span class="tag">DFS</span><span class="tag">栈</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>中序遍历就是先看左边，再看自己，最后看右边。对二叉搜索树来说，中序遍历结果是升序。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>递归写法最直观：左、根、右。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>树本身是递归结构，一个节点的左子树和右子树又是树，所以用递归描述遍历最自然。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>递归函数可以接收当前节点。</li><li>空节点直接返回。</li><li><code>ans.append(root.val)</code> 表示访问根节点。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>定义 <code>dfs(node)</code>。</li><li>如果节点为空，返回。</li><li>递归遍历左子树。</li><li>把当前节点值加入答案。</li><li>递归遍历右子树。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def inorderTraversal(self, root):
+        ans = []
+
+        def dfs(node):
+            if not node:
+                return
+            dfs(node.left)
+            ans.append(node.val)
+            dfs(node.right)
+
+        dfs(root)
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>ans</code> 保存遍历结果。</li><li><code>dfs(node.left)</code> 先处理左子树。</li><li><code>ans.append(node.val)</code> 访问根。</li><li><code>dfs(node.right)</code> 最后处理右子树。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p>树 <code>[1,null,2,3]</code> 的中序遍历结果是 <code>[1,3,2]</code>。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(h)</code>，递归栈高度，最坏 <code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>顺序是左根右，不是根左右。</li><li>空节点一定要作为递归出口。</li><li>不要把 <code>ans</code> 写成类变量，避免多次调用污染。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>ACM 中可用层序数组建树，再输出中序遍历。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+# 常用整数行：nums = list(map(int, input().split()))
+vals = input().split()
+
+def inorder(i):
+    if i &gt;= len(vals) or vals[i] == &quot;null&quot;:
+        return []
+    return inorder(2 * i + 1) + [int(vals[i])] + inorder(2 * i + 2)
+
+print(*inorder(0))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="104-maximum-depth-of-binary-tree.html">104. Maximum Depth</a> <a class="problem-chip" href="098-validate-binary-search-tree.html">98. Validate BST</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="148-sort-list.html">上一题<br><strong>148. Sort List</strong></a><a class="next" href="543-diameter-of-binary-tree.html">下一题<br><strong>543. Diameter of Binary Tree</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>141. Linked List Cycle - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="141-linked-list-cycle">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Linked List</p><h1>141. Linked List Cycle</h1><p class="muted">判断链表中是否存在环。</p></div><div class="tags"><span class="tag easy">Easy</span><span class="tag">链表</span><span class="tag">快慢指针</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>如果某个节点的 <code>next</code> 指回前面的节点，链表就会一直走不完，这就是有环。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>快慢指针同时走，快指针如果追上慢指针就有环。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>在环里，快指针每次比慢指针多走一步，距离会不断缩短，最终一定相遇；无环时快指针会先走到空。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>快指针每次走两步，慢指针每次走一步。</li><li>循环条件要保证 <code>fast</code> 和 <code>fast.next</code> 都存在。</li><li>快慢指针是链表判环的标准模板。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化 <code>slow = fast = head</code>。</li><li>循环中慢指针走一步，快指针走两步。</li><li>如果二者相遇，返回 <code>True</code>。</li><li>如果快指针走到空，返回 <code>False</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def hasCycle(self, head):
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+        return False</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>fast and fast.next</code> 防止访问空节点的 <code>next</code>。</li><li><code>slow == fast</code> 表示两个指针到了同一个节点。</li><li>有环时不会走到空节点。</li><li>无环时快指针会先到链表尾部。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>3 -&amp;gt; 2 -&amp;gt; 0 -&amp;gt; -4</code> 且 <code>-4</code> 指回 <code>2</code>，快慢指针会在环中相遇。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note"><ul><li>比较的是节点对象，不是节点值。</li><li>循环条件不能只写 <code>while fast</code>。</li><li>空链表和单节点无环都要返回 <code>False</code>。</li></ul></div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>ACM 中常给一个 <code>pos</code> 表示尾节点连回的位置，<code>-1</code> 表示无环。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code># input() 读取一行，split() 切分，map() 转整数，print() 输出结果
+nums = list(map(int, input().split()))
+pos = int(input())
+print(pos != -1 and len(nums) &gt; 0)</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="142-linked-list-cycle-ii.html">142. Linked List Cycle II</a> <a class="problem-chip" href="160-intersection-of-two-linked-lists.html">160. Intersection</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="234-palindrome-linked-list.html">上一题<br><strong>234. Palindrome Linked List</strong></a><a class="next" href="142-linked-list-cycle-ii.html">下一题<br><strong>142. Linked List Cycle II</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button>
+  <script src="../assets/main.js"></script>
+</body>
+</html>
