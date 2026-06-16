@@ -11,7 +11,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 首页学习路线
 - 题型分类入口
 - 题目搜索
-- 37 道入门题笔记
+- 44 道入门题笔记
 - 每题包含核心思路、解题过程、Python 代码、逐行解释、复杂度分析、易错点和 ACM 模式改写
 
 ## 已整理题目
@@ -26,6 +26,7 @@ https://akiteet.github.io/leetcode-study-site/
 - 283. Move Zeroes
 - 26. Remove Duplicates from Sorted Array
 - 121. Best Time to Buy and Sell Stock
+- 56. Merge Intervals
 - 3. Longest Substring Without Repeating Characters
 - 104. Maximum Depth of Binary Tree
 - 226. Invert Binary Tree
@@ -34,6 +35,10 @@ https://akiteet.github.io/leetcode-study-site/
 - 128. Longest Consecutive Sequence
 - 347. Top K Frequent Elements
 - 350. Intersection of Two Arrays II
+- 560. Subarray Sum Equals K
+- 41. First Missing Positive
+- 189. Rotate Array
+- 238. Product of Array Except Self
 - 11. Container With Most Water
 - 42. Trapping Rain Water
 - 15. 3Sum
@@ -41,6 +46,8 @@ https://akiteet.github.io/leetcode-study-site/
 - 209. Minimum Size Subarray Sum
 - 424. Longest Repeating Character Replacement
 - 438. Find All Anagrams in a String
+- 76. Minimum Window Substring
+- 239. Sliding Window Maximum
 - 739. Daily Temperatures
 - 155. Min Stack
 - 150. Evaluate Reverse Polish Notation

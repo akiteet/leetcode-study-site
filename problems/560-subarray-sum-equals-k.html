@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>560. Subarray Sum Equals K - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="560-subarray-sum-equals-k">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">Prefix Sum / Hash Table</p><h1>560. Subarray Sum Equals K</h1><p class="muted">统计和为 k 的连续子数组个数。</p></div><div class="tags"><span class="tag medium">Medium</span><span class="tag">哈希表</span><span class="tag">前缀和</span><span class="tag">数组</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>在数组里找所有连续区间，只要这个区间的和等于 <code>k</code>，就计数一次。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>用哈希表记录前缀和出现次数，当前前缀和为 <code>prefix</code> 时，查 <code>prefix - k</code> 出现过几次。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>区间和可以转成两个前缀和的差：<code>sum(i..j) = prefix[j] - prefix[i - 1]</code>。要让区间和为 k，就需要以前出现过 <code>prefix - k</code>。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li><code>dict</code> 可以记录某个前缀和出现次数。</li><li><code>count.get(key, 0)</code> 能安全读取默认值。</li><li>前缀和从 0 开始，表示空前缀。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>初始化 <code>prefix = 0</code>，并记录前缀和 0 出现 1 次。</li><li>遍历数组，不断累加当前前缀和。</li><li>查找 <code>prefix - k</code> 出现次数并加入答案。</li><li>把当前前缀和次数加 1。</li><li>遍历结束返回答案。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def subarraySum(self, nums: list[int], k: int) -&gt; int:
+        count = {0: 1}
+        prefix = 0
+        ans = 0
+
+        for num in nums:
+            prefix += num
+            ans += count.get(prefix - k, 0)
+            count[prefix] = count.get(prefix, 0) + 1
+
+        return ans</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>{0: 1}</code>：处理从下标 0 开始的区间。</li><li><code>prefix += num</code>：得到当前位置前缀和。</li><li><code>prefix - k</code>：如果以前有这个前缀和，中间区间和就是 k。</li><li><code>ans += ...</code>：可能有多个相同前缀和，都要计入。</li><li>最后记录当前前缀和，给后面使用。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>nums = [1,1,1], k = 2</code>。前缀和依次为 1、2、3，能找到两个区间：前两个 1 和后两个 1。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，数组只遍历一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(n)</code>，最坏情况下前缀和都不同。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">这题数组可能有负数，不能用普通滑动窗口；窗口和不再单调变化。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一行 <code>n k</code>，第二行 <code>n</code> 个整数，输出区间个数。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def subarray_sum(nums, k):
+    count = {0: 1}
+    prefix = 0
+    ans = 0
+    for num in nums:
+        prefix += num
+        ans += count.get(prefix - k, 0)
+        count[prefix] = count.get(prefix, 0) + 1
+    return ans
+
+data = sys.stdin.read().strip().split()
+n, k = map(int, data[:2])
+nums = list(map(int, data[2:2 + n]))
+print(subarray_sum(nums, k))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="001-two-sum.html">1. Two Sum</a> <a class="problem-chip" href="209-minimum-size-subarray-sum.html">209. Minimum Size Subarray Sum</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="350-intersection-of-two-arrays-ii.html">上一题<br><strong>350. Intersection of Two Arrays II</strong></a><a class="next" href="041-first-missing-positive.html">下一题<br><strong>41. First Missing Positive</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>

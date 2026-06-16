@@ -90,6 +90,15 @@ const problems = [
     href: "problems/121-best-time-to-buy-and-sell-stock.html"
   },
   {
+    slug: "056-merge-intervals",
+    number: "56",
+    title: "Merge Intervals",
+    cnTitle: "合并区间",
+    difficulty: "Medium",
+    tags: ["贪心", "排序", "数组"],
+    href: "problems/056-merge-intervals.html"
+  },
+  {
     slug: "003-longest-substring-without-repeating-characters",
     number: "3",
     title: "Longest Substring Without Repeating Characters",
@@ -162,6 +171,42 @@ const problems = [
     href: "problems/350-intersection-of-two-arrays-ii.html"
   },
   {
+    slug: "560-subarray-sum-equals-k",
+    number: "560",
+    title: "Subarray Sum Equals K",
+    cnTitle: "和为 K 的子数组",
+    difficulty: "Medium",
+    tags: ["哈希表", "前缀和", "数组"],
+    href: "problems/560-subarray-sum-equals-k.html"
+  },
+  {
+    slug: "041-first-missing-positive",
+    number: "41",
+    title: "First Missing Positive",
+    cnTitle: "缺失的第一个正数",
+    difficulty: "Hard",
+    tags: ["哈希表", "数组", "原地哈希"],
+    href: "problems/041-first-missing-positive.html"
+  },
+  {
+    slug: "189-rotate-array",
+    number: "189",
+    title: "Rotate Array",
+    cnTitle: "轮转数组",
+    difficulty: "Medium",
+    tags: ["双指针", "数组"],
+    href: "problems/189-rotate-array.html"
+  },
+  {
+    slug: "238-product-of-array-except-self",
+    number: "238",
+    title: "Product of Array Except Self",
+    cnTitle: "除自身以外数组的乘积",
+    difficulty: "Medium",
+    tags: ["数组", "前后缀"],
+    href: "problems/238-product-of-array-except-self.html"
+  },
+  {
     slug: "011-container-with-most-water",
     number: "11",
     title: "Container With Most Water",
@@ -223,6 +268,24 @@ const problems = [
     difficulty: "Medium",
     tags: ["滑动窗口", "哈希表", "字符串"],
     href: "problems/438-find-all-anagrams-in-a-string.html"
+  },
+  {
+    slug: "076-minimum-window-substring",
+    number: "76",
+    title: "Minimum Window Substring",
+    cnTitle: "最小覆盖子串",
+    difficulty: "Hard",
+    tags: ["滑动窗口", "哈希表", "字符串"],
+    href: "problems/076-minimum-window-substring.html"
+  },
+  {
+    slug: "239-sliding-window-maximum",
+    number: "239",
+    title: "Sliding Window Maximum",
+    cnTitle: "滑动窗口最大值",
+    difficulty: "Hard",
+    tags: ["滑动窗口", "队列", "单调队列"],
+    href: "problems/239-sliding-window-maximum.html"
   },
   {
     slug: "739-daily-temperatures",

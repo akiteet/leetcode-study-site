@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>41. First Missing Positive - Python 刷题入门笔记</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="problem" data-current="041-first-missing-positive">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html" aria-label="返回首页"><span class="brand-mark">Py</span><span>Python 刷题入门笔记</span></a><nav class="nav" aria-label="顶部导航"><a class="nav-link" href="../index.html">首页</a><a class="nav-link" href="../topics.html">题型分类</a><a class="nav-link" href="../topics.html#acm">ACM 专项</a></nav></div></header>
+  <main class="page layout">
+    <aside class="sidebar"><p class="sidebar-title">题目目录</p><input class="search-input" type="search" placeholder="搜索题目" data-problem-search="#problem-list"><ul id="problem-list" class="problem-list"></ul></aside>
+    <article class="content-card">
+      <header class="problem-header"><div><p class="eyebrow">In-place Hashing</p><h1>41. First Missing Positive</h1><p class="muted">找出数组中缺失的最小正整数。</p></div><div class="tags"><span class="tag hard">Hard</span><span class="tag">哈希表</span><span class="tag">数组</span><span class="tag">原地哈希</span></div></header>
+      <section class="article-section"><h2>题目白话解释</h2><p>给你一个乱序数组，问从 1 开始数，哪个正整数最先没有出现。</p></section>
+      <section class="article-section"><h2>核心思路一句话</h2><p>把值为 <code>x</code> 的数字尽量放到下标 <code>x - 1</code> 的位置，再从前往后找第一个不匹配的位置。</p></section>
+      <section class="article-section"><h2>为什么会想到这个方法</h2><p>长度为 n 的数组，答案只可能在 <code>1..n+1</code>。如果 1 到 n 都在正确位置，那答案就是 n+1；否则第一个位置不对的下标就能推出缺失值。</p></section>
+      <section class="article-section"><h2>Python 前置知识</h2><ul><li>列表元素可以交换：<code>nums[i], nums[j] = nums[j], nums[i]</code>。</li><li><code>while</code> 用于把当前位置数字连续放回正确位置。</li><li>要判断目标位置是否已经有相同值，避免死循环。</li></ul></section>
+      <section class="article-section"><h2>解题步骤</h2><ol><li>遍历每个位置。</li><li>如果当前值在 <code>1..n</code> 内，就尝试放到它应该在的位置。</li><li>重复交换，直到当前位置无法再放。</li><li>再次遍历数组。</li><li>第一个 <code>nums[i] != i + 1</code> 的位置，答案就是 <code>i + 1</code>。</li></ol></section>
+      <section class="article-section"><h2>完整 Python 代码</h2><div class="code-block"><div class="code-title">leetcode.py</div><pre><code>class Solution:
+    def firstMissingPositive(self, nums: list[int]) -&gt; int:
+        n = len(nums)
+
+        for i in range(n):
+            while 1 &lt;= nums[i] &lt;= n and nums[nums[i] - 1] != nums[i]:
+                target = nums[i] - 1
+                nums[i], nums[target] = nums[target], nums[i]
+
+        for i in range(n):
+            if nums[i] != i + 1:
+                return i + 1
+
+        return n + 1</code></pre></div></section>
+      <section class="article-section"><h2>逐行解释</h2><ul><li><code>1 &lt;= nums[i] &lt;= n</code>：只处理可能影响答案的正数。</li><li><code>target = nums[i] - 1</code>：数字 x 应该放到 x-1。</li><li>交换后继续检查当前位置的新数字。</li><li>第二轮遍历寻找第一个不匹配位置。</li><li>全部匹配说明缺失的是 <code>n + 1</code>。</li></ul></section>
+      <section class="article-section"><h2>示例执行过程</h2><p><code>[3,4,-1,1]</code> 经过交换后，1 放到下标 0，3 放到下标 2。下标 1 没有放 2，所以答案是 2。</p></section>
+      <section class="article-section"><h2>时间复杂度</h2><p><code>O(n)</code>，每个数字最多被放回正确位置一次。</p></section>
+      <section class="article-section"><h2>空间复杂度</h2><p><code>O(1)</code>，原地交换。</p></section>
+      <section class="article-section"><h2>易错点</h2><div class="note">交换条件里必须判断 <code>nums[nums[i] - 1] != nums[i]</code>，否则遇到重复数字会死循环。</div></section>
+      <section id="acm" class="article-section"><h2>ACM 模式输入输出改写</h2><p>输入第一项为 <code>n</code>，后面跟着数组，输出缺失的最小正整数。</p><div class="code-block"><div class="code-title">acm.py</div><pre><code>import sys
+
+def first_missing_positive(nums):
+    n = len(nums)
+    for i in range(n):
+        while 1 &lt;= nums[i] &lt;= n and nums[nums[i] - 1] != nums[i]:
+            target = nums[i] - 1
+            nums[i], nums[target] = nums[target], nums[i]
+    for i in range(n):
+        if nums[i] != i + 1:
+            return i + 1
+    return n + 1
+
+data = sys.stdin.read().strip().split()
+n = int(data[0])
+nums = list(map(int, data[1:1 + n]))
+print(first_missing_positive(nums))</code></pre></div></section>
+      <section class="article-section"><h2>相关题目推荐</h2><p><a class="problem-chip" href="217-contains-duplicate.html">217. Contains Duplicate</a> <a class="problem-chip" href="560-subarray-sum-equals-k.html">560. Subarray Sum Equals K</a></p></section>
+      <nav class="pager" aria-label="题目翻页"><a href="560-subarray-sum-equals-k.html">上一题<br><strong>560. Subarray Sum Equals K</strong></a><a class="next" href="189-rotate-array.html">下一题<br><strong>189. Rotate Array</strong></a></nav>
+    </article>
+  </main>
+  <button class="back-to-top" type="button" aria-label="返回顶部" data-back-to-top>↑</button><script src="../assets/main.js"></script>
+</body>
+</html>
